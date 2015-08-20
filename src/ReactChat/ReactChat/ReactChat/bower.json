@@ -1,0 +1,22 @@
+{
+    "name": "React_Chat_Gap",
+    "version": "0.0.1",
+    "authors": [
+        ""
+    ],
+    "license": "MIT",
+    "private": true,
+    "dependencies": {
+        "react": "~0.12.1",
+		"jquery": "~2.1.1",
+		"reflux": "~0.2.0"
+    },
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ]
+
+}

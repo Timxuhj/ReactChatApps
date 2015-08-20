@@ -1,0 +1,4 @@
+﻿;!@Install@!UTF-8!
+ExecuteFile="ReactChat.AppWinForms.exe"
+GUIMode="2"
+;!@InstallEnd@!
