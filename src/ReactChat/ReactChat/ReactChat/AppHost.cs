@@ -55,9 +55,7 @@ namespace ReactChat
             Plugins.Add(new AuthFeature(
                 () => new AuthUserSession(),
                 new IAuthProvider[] {
-                    new TwitterAuthProvider(AppSettings),   //Sign-in with Twitter
-                    new FacebookAuthProvider(AppSettings),  //Sign-in with Facebook
-                    new GithubAuthProvider(AppSettings),    //Sign-in with GitHub OAuth Provider
+                    new TwitterAuthProvider(AppSettings)   //Sign-in with Twitter
                 }));
 
             container.RegisterAutoWiredAs<MemoryChatHistory, IChatHistory>();
