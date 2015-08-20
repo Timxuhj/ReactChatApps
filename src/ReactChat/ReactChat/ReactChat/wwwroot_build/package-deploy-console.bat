@@ -17,6 +17,7 @@ SET INPUT=%INPUT% %RELEASE%\ServiceStack.Text.dll
 SET INPUT=%INPUT% %RELEASE%\ServiceStack.Client.dll
 SET INPUT=%INPUT% %RELEASE%\ServiceStack.Common.dll
 SET INPUT=%INPUT% %RELEASE%\ServiceStack.Interfaces.dll
+SET INPUT=%INPUT% %RELEASE&\ServiceStack.Server.dll
 SET INPUT=%INPUT% %RELEASE%\ServiceStack.OrmLite.dll
 SET INPUT=%INPUT% %RELEASE%\ServiceStack.Redis.dll
 SET INPUT=%INPUT% %RELEASE%\ServiceStack.Razor.dll
