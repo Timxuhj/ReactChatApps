@@ -92,7 +92,7 @@ module.exports = function (grunt) {
             'restore-webapp': {
                 src: './packages.config',
                 dest: '../../packages/'
-            },
+            }
         },
         msdeploy: {
             pack: {
