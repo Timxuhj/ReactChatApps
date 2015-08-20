@@ -39,7 +39,7 @@ var Header = React.createClass({
                             <a href="/auth/twitter" className="twitter"></a>           
                           </span>}
 					<span style={{float:'right', width: '25px'}}>
-						<a onClick={$this.exitApplication}><img src="/img/close.png" style={{height: '30px', 'marginTop':'-5px'}} /></a>
+						<a onClick={$this.exitApplication}><img src="/img/close.png" style={{height: '30px', 'marginTop':'-7px'}} /></a>
 					</span>
                 </div>
                 <ul id="channels" style={{margin: '0 0 0 30px'}}>
