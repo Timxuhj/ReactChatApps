@@ -95,6 +95,7 @@ namespace ReactChat.AppConsole
             AppSettings.Set("oauth.CallbackUrl", Program.HostUrl + "auth/{0}");
             AppSettings.Set("oauth.twitter.ConsumerKey", "6APZQFxeVVLobXT2wRZArerg0");
             AppSettings.Set("oauth.twitter.ConsumerSecret", "bKwpp31AS90MUBw1s1w0pIIdYdVEdPLa1VvobUr7IXR762hdUn");
+            //AppSettings.Set("RedisHost", "localhost:6379");
         }
     }
 }
