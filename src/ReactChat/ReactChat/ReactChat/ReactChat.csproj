@@ -20,6 +20,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <RestorePackages>true</RestorePackages>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -121,7 +122,6 @@
     <Content Include="bower.json" />
     <Content Include="wwwroot_build\00-install-dependencies.bat" />
     <Content Include="wwwroot_build\package-deploy-console.bat" />
-    <Content Include="wwwroot_build\config-console.txt" />
     <Content Include="wwwroot_build\config-winforms.txt" />
     <Content Include="wwwroot_build\package-deploy-winforms.bat" />
     <Content Include="wwwroot_build\deploy\appsettings.txt" />
