@@ -327,13 +327,3 @@ This task also performs `01-build-all` as well restoring NuGet packages and buil
 
 #### 04-deploy-webapp
 
-
-
-# Working with Redis
-- Though these apps are hosted individually, when each of them connect to a shared Redis instance, this app can be used as a hosted web app, self hosted console app or CefSharp application chatting to different users regardless of client type.
-- Separate AppHost configuration.
-  - Web can load from appsettings.txt deployed using the Grunt `04-deploy-webapp` task
-  - WinForms can load from app.config that is deployed with the application in the self executable zip.
-  - Console can have these configurations set directly to the `AppSettings` in code if deployed as an ILMerged executable, or loaded from either accompanying app.config or appsettings.txt file if it's packaged.
-
-
