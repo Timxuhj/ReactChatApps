@@ -12,6 +12,8 @@ using ReactChat.ServiceInterface;
 using ServiceStack.Auth;
 using ServiceStack.Redis;
 using ServiceStack.Text;
+using System.IO;
+using ServiceStack.Configuration;
 
 namespace ReactChat.AppConsole
 {
@@ -22,9 +24,12 @@ namespace ReactChat.AppConsole
         /// Base constructor requires a name and assembly to locate web service classes. 
         /// </summary>
         public AppHost()
-            : base("React_Chat_Gap.AppConsole", typeof(ServerEventsServices).Assembly)
+            : base("ReactChat.AppConsole", typeof(ServerEventsServices).Assembly)
         {
-
+            var customSettings = new FileInfo("appsettings.txt");
+            AppSettings = customSettings.Exists
+                ? (IAppSettings)new TextFileSettings(customSettings.FullName)
+                : new AppSettings();
         }
 
         /// <summary>
@@ -91,11 +96,17 @@ namespace ReactChat.AppConsole
 
         private void InitializeAppSettings()
         {
-            AppSettings.Set("oauth.RedirectUrl", Program.HostUrl);
-            AppSettings.Set("oauth.CallbackUrl", Program.HostUrl + "auth/{0}");
-            AppSettings.Set("oauth.twitter.ConsumerKey", "6APZQFxeVVLobXT2wRZArerg0");
-            AppSettings.Set("oauth.twitter.ConsumerSecret", "bKwpp31AS90MUBw1s1w0pIIdYdVEdPLa1VvobUr7IXR762hdUn");
-            //AppSettings.Set("RedisHost", "localhost:6379");
+            var allKeys = AppSettings.GetAllKeys();
+            if(!allKeys.Contains("oauth.RedirectUrl"))
+                AppSettings.Set("oauth.RedirectUrl", Program.HostUrl);
+            if(!allKeys.Contains("oauth.CallbackUrl"))
+                AppSettings.Set("oauth.CallbackUrl", Program.HostUrl + "auth/{0}");
+            if(!allKeys.Contains("oauth.twitter.ConsumerKey"))
+                AppSettings.Set("oauth.twitter.ConsumerKey", "6APZQFxeVVLobXT2wRZArerg0");
+            if (!allKeys.Contains("oauth.twitter.ConsumerSecret"))
+                AppSettings.Set("oauth.twitter.ConsumerSecret", "bKwpp31AS90MUBw1s1w0pIIdYdVEdPLa1VvobUr7IXR762hdUn");
+            //if (!allKeys.Contains("RedisHost"))
+            //    AppSettings.Set("RedisHost", "localhost:6379");
         }
     }
 }
