@@ -390,7 +390,16 @@ del ReactChat-winforms.exe
 cd tools && 7za a ..\ReactChat-winforms.7z ..\staging-winforms\* && cd..
 copy /b .\tools\7zsd_All.sfx + config-winforms.txt + ReactChat-winforms.7z .\apps\ReactChat-winforms.exe
 ```
-First the batch file stages all the required files in `staging-winforms` which gets zipped into a `.7z` compressed file, then packaged into a self executing zip using the `config-winforms.txt` file. 
+
+If additional files not included in the `ROBOCOPY`/`COPY` commands below are needed in the application, they need to be included in the `ROBOCOPY` command in `package-deploy-winforms.bat`. By default, all the files required for the Chromium Embedded Framework are included in the template script.
+
+```
+COPY %RELEASE%\ReactChat.AppWinForms.exe .\staging-winforms
+COPY %RELEASE%\ReactChat.AppWinForms.exe.config .\staging-winforms
+ROBOCOPY "%RELEASE%" ".\staging-winforms" *.dll *.pak *.dat /E
+```
+
+Once all the required files in are staged in the `staging-winforms`, this directory's contents gets zipped into a `.7z` compressed file, then packaged into a self executing zip using the `config-winforms.txt` file. 
 
 ``` txt
 ;!@Install@!UTF-8!

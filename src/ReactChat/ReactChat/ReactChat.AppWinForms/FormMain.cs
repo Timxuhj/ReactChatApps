@@ -16,14 +16,16 @@ namespace ReactChat.AppWinForms
             {
                 Dock = DockStyle.Fill
             };
-            
+
+            Controls.Add(chromiumBrowser);
+
             Load += (sender, args) =>
             {
                 FormBorderStyle = FormBorderStyle.None;
                 Left = Top = 0;
                 Width = Screen.PrimaryScreen.WorkingArea.Width;
                 Height = Screen.PrimaryScreen.WorkingArea.Height;
-                Controls.Add(chromiumBrowser);
+                
             };
 
             FormClosing += (sender, args) =>
