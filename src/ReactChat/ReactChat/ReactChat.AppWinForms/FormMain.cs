@@ -18,6 +18,14 @@ namespace ReactChat.AppWinForms
             };
             Controls.Add(chromiumBrowser);
 
+            Load += (sender, args) =>
+            {
+                FormBorderStyle = FormBorderStyle.None;
+                Left = Top = 0;
+                Width = Screen.PrimaryScreen.WorkingArea.Width;
+                Height = Screen.PrimaryScreen.WorkingArea.Height;
+            };
+
             FormClosing += (sender, args) =>
             {
                 //Make closing feel more responsive.
@@ -31,14 +39,6 @@ namespace ReactChat.AppWinForms
 
             chromiumBrowser.RegisterJsObject("aboutDialog", new AboutDialogJsObject());
             chromiumBrowser.RegisterJsObject("winForm",new WinFormsApp(this));
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            FormBorderStyle = FormBorderStyle.None;
-            Left = Top = 0;
-            Width = Screen.PrimaryScreen.WorkingArea.Width;
-            Height = Screen.PrimaryScreen.WorkingArea.Height;
         }
     }
 

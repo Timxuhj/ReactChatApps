@@ -17,7 +17,7 @@ namespace ReactChat.AppWinForms
         /// Base constructor requires a name and assembly to locate web service classes. 
         /// </summary>
         public AppHost()
-            : base("React_Chat_Gap.AppWinForms", typeof(ServerEventsServices).Assembly)
+            : base("ReactChat.AppWinForms", typeof(ServerEventsServices).Assembly)
         {
 
         }
@@ -47,7 +47,6 @@ namespace ReactChat.AppWinForms
             {
                 DebugMode = AppSettings.Get("DebugMode", false),
                 DefaultContentType = MimeTypes.Json,
-                AllowFileExtensions = { "jsx" },
                 EmbeddedResourceBaseTypes = { typeof(AppHost), typeof(CefResources) }
             });
 
