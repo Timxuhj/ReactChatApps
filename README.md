@@ -321,9 +321,99 @@ The bundling searches for assets in any `*.cshtml` file and follows build commen
 When creating new JS files for your application, they should be added in the `build:js js/app.jsx.js` comments shown above. `build:remove` is used to remove the use of the runtime JSX transformer that we use for our React components, but is not longer needed ([and recommended not to be used in a production environment](https://facebook.github.io/react/docs/tooling-integration.html)) in our deployed application.
 
 #### 02-package-console
-This task also performs `01-build-all` as well restoring NuGet packages and building the **AppConsole** project. Once the project resources are ready, it calls the `package-deploy-console.bat` batch file which, using **ILMerge**, produces the stand alone exe of the console application. 
+This task also performs `01-build-all` as well restoring NuGet packages and building the **AppConsole** project. Once the project resources are ready, it calls the `package-deploy-console.bat` batch file which, using **ILMerge**, produces the stand alone exe of the console application and copies it to `apps` output directory.
+
+``` bat
+IF EXIST staging-console (
+RMDIR /S /Q .\staging-console
+)
+
+MD staging-console
+
+SET TOOLS=.\tools
+SET OUTPUTNAME=ReactChat.Console.exe
+SET ILMERGE=%TOOLS%\ILMerge.exe
+SET RELEASE=..\..\ReactChat.AppConsole\bin\x86\Release
+SET INPUT=%RELEASE%\ReactChat.AppConsole.exe
+SET INPUT=%INPUT% %RELEASE%\ReactChat.Resources.dll
+SET INPUT=%INPUT% %RELEASE%\ReactChat.ServiceInterface.dll
+SET INPUT=%INPUT% %RELEASE%\ReactChat.ServiceModel.dll
+SET INPUT=%INPUT% %RELEASE%\ServiceStack.dll
+SET INPUT=%INPUT% %RELEASE%\ServiceStack.Text.dll
+SET INPUT=%INPUT% %RELEASE%\ServiceStack.Client.dll
+SET INPUT=%INPUT% %RELEASE%\ServiceStack.Common.dll
+SET INPUT=%INPUT% %RELEASE%\ServiceStack.Interfaces.dll
+SET INPUT=%INPUT% %RELEASE%\ServiceStack.Server.dll
+SET INPUT=%INPUT% %RELEASE%\ServiceStack.OrmLite.dll
+SET INPUT=%INPUT% %RELEASE%\ServiceStack.Redis.dll
+SET INPUT=%INPUT% %RELEASE%\ServiceStack.Razor.dll
+SET INPUT=%INPUT% %RELEASE%\System.Web.Razor.dll
+
+%ILMERGE% /target:exe /targetplatform:v4,"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5" /out:staging-console\%OUTPUTNAME% /ndebug %INPUT% 
+
+IF NOT EXIST apps (
+MD apps
+)
+
+COPY /Y .\staging-console\%OUTPUTNAME% .\apps\ReactChat-console.exe
+```
 
 #### 03-package-winforms
+This task also performs `01-build-all` as well restoring NuGet packages and building the **AppWinForms** project. Once the project resources are ready, it calls `package-deploy-winforms.bat` which uses 7zip SFX to zip and compresses the CefSharp.WinForms ReactChat.AppWinForms application in a self executing zip package.
+
+``` batch
+IF EXIST staging-winforms\ (
+RMDIR /S /Q .\staging-winforms
+)
+
+MKDIR staging-winforms
+
+SET TOOLS=.\tools
+SET RELEASE=..\..\ReactChat.AppWinForms\bin\x86\Release
+COPY %RELEASE%\ReactChat.AppWinForms.exe .\staging-winforms
+COPY %RELEASE%\ReactChat.AppWinForms.exe.config .\staging-winforms
+COPY %RELEASE%\CefSharp.BrowserSubprocess.exe .\staging-winforms
+ROBOCOPY "%RELEASE%" ".\staging-winforms" *.dll *.pak *.dat /E
+
+IF NOT EXIST apps (
+mkdir apps
+)
+
+IF EXIST ReactChat-winforms.7z (
+del ReactChat-winforms.7z
+)
+
+IF EXIST ReactChat-winforms.exe (
+del ReactChat-winforms.exe
+)
+
+cd tools && 7za a ..\ReactChat-winforms.7z ..\staging-winforms\* && cd..
+copy /b .\tools\7zsd_All.sfx + config-winforms.txt + ReactChat-winforms.7z .\apps\ReactChat-winforms.exe
+```
+First the batch file stages all the required files in `staging-winforms` which gets zipped into a `.7z` compressed file, then packaged into a self executing zip using the `config-winforms.txt` file. 
+
+``` txt
+;!@Install@!UTF-8!
+ExecuteFile="ReactChat.AppWinForms.exe"
+GUIMode="2"
+;!@InstallEnd@!
+```
+Configuration options for 7z SFX can be found in the [7z SFX documentation](http://7zsfx.info/en/configinfo.html).
+
+The ReactChatApp solution is using a modified version of the 7zsd_All.sfx file which generates the self executable with the custom ServiceStack `.ico` file. More information on how to change this to a custom icon can be found on the [7zsfx.info](http://7zsfx.info/en/icon.html) site.
 
 #### 04-deploy-webapp
+
+This Grunt task uses the same conventions as those found in the AngularJS and ReactApp template in ServiceStackVS. WebDeploy is used to deploy the application from the staged `wwwroot` folder to an existing IIS application. Config for the deployment, eg the IIS Server address, application name, username and password is located in the `/wwwroot_build/publish/config.js`. 
+
+    {
+        "iisApp": "YourAppName",
+        "serverAddress": "deploy-server.example.com",
+        "userName": "{WebDeployUserName}",
+        "password" : "{WebDeployPassword}"
+    }
+
+If you are using **Github's default Visual Studio ignore, this file will not be included in source control** due to the default rule of `publish/` to be ignored. You should check your Git Repository `.gitignore` rules before committing any potentially sensitive information into public source control.
+
+This task shows a quick way of updating your development server quickly after making changes to your application. For more information on use web-deploy using either Grunt or just Visual Studio publish, see '[WebDeploy with AWS](https://github.com/ServiceStack/ServiceStack/wiki/WebDeploy-with-AWS#deploy-using-grunt)'.
 
