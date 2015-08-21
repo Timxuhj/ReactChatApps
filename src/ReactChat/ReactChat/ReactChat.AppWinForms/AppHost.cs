@@ -35,8 +35,11 @@ namespace ReactChat.AppWinForms
 
             JsConfig.EmitCamelCaseNames = true;
 
-            Plugins.Add(new RazorFormat());
             Plugins.Add(new ServerEventsFeature());
+            Plugins.Add(new RazorFormat
+            {
+                LoadFromAssemblies = { typeof(CefResources).Assembly }
+            });
 
             MimeTypes.ExtensionMimeTypes["jsv"] = "text/jsv";
 
@@ -45,6 +48,7 @@ namespace ReactChat.AppWinForms
                 DebugMode = AppSettings.Get("DebugMode", false),
                 DefaultContentType = MimeTypes.Json,
                 AllowFileExtensions = { "jsx" },
+                EmbeddedResourceBaseTypes = { typeof(AppHost), typeof(CefResources) }
             });
 
             CustomErrorHttpHandlers.Remove(HttpStatusCode.Forbidden);
@@ -53,9 +57,7 @@ namespace ReactChat.AppWinForms
             Plugins.Add(new AuthFeature(
                 () => new AuthUserSession(),
                 new IAuthProvider[] {
-                    new TwitterAuthProvider(AppSettings),   //Sign-in with Twitter
-                    new FacebookAuthProvider(AppSettings),  //Sign-in with Facebook
-                    new GithubAuthProvider(AppSettings),    //Sign-in with GitHub OAuth Provider
+                    new TwitterAuthProvider(AppSettings)   //Sign-in with Twitter
                 }));
 
             container.RegisterAutoWiredAs<MemoryChatHistory, IChatHistory>();
@@ -69,17 +71,6 @@ namespace ReactChat.AppWinForms
                     new RedisServerEvents(c.Resolve<IRedisClientsManager>()));
                 container.Resolve<IServerEvents>().Start();
             }
-
-            Plugins.Add(new RazorFormat
-            {
-                LoadFromAssemblies = { typeof(CefResources).Assembly },
-            });
-
-            SetConfig(new HostConfig
-            {
-                DebugMode = true,
-                EmbeddedResourceBaseTypes = { typeof(AppHost), typeof(CefResources) },
-            });
         }
     }
 }

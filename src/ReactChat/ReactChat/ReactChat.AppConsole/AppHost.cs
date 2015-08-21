@@ -47,13 +47,13 @@ namespace ReactChat.AppConsole
 
             Plugins.Add(new RazorFormat
             {
-                LoadFromAssemblies = { typeof(CefResources).Assembly },
+                LoadFromAssemblies = { typeof(CefResources).Assembly }
             });
 
             SetConfig(new HostConfig
             {
                 DebugMode = true,
-                EmbeddedResourceBaseTypes = { typeof(AppHost), typeof(CefResources) },
+                EmbeddedResourceBaseTypes = { typeof(AppHost), typeof(CefResources) }
             });
 
             JsConfig.EmitCamelCaseNames = true;
@@ -76,9 +76,7 @@ namespace ReactChat.AppConsole
             Plugins.Add(new AuthFeature(
                 () => new AuthUserSession(),
                 new IAuthProvider[] {
-                    new TwitterAuthProvider(AppSettings),   //Sign-in with Twitter
-                    new FacebookAuthProvider(AppSettings),  //Sign-in with Facebook
-                    new GithubAuthProvider(AppSettings),    //Sign-in with GitHub OAuth Provider
+                    new TwitterAuthProvider(AppSettings)   //Sign-in with Twitter
                 }));
 
             container.RegisterAutoWiredAs<MemoryChatHistory, IChatHistory>();
