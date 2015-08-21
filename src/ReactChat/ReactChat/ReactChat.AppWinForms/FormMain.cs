@@ -16,14 +16,14 @@ namespace ReactChat.AppWinForms
             {
                 Dock = DockStyle.Fill
             };
-            Controls.Add(chromiumBrowser);
-
+            
             Load += (sender, args) =>
             {
                 FormBorderStyle = FormBorderStyle.None;
                 Left = Top = 0;
                 Width = Screen.PrimaryScreen.WorkingArea.Width;
                 Height = Screen.PrimaryScreen.WorkingArea.Height;
+                Controls.Add(chromiumBrowser);
             };
 
             FormClosing += (sender, args) =>
@@ -38,7 +38,7 @@ namespace ReactChat.AppWinForms
             };
 
             chromiumBrowser.RegisterJsObject("aboutDialog", new AboutDialogJsObject());
-            chromiumBrowser.RegisterJsObject("winForm",new WinFormsApp(this));
+            chromiumBrowser.RegisterJsObject("winForm",new WinFormsApp(this, splashPanel));
         }
     }
 
@@ -52,18 +52,28 @@ namespace ReactChat.AppWinForms
 
     public class WinFormsApp
     {
-        public FormMain Form { get; set; }
+        private FormMain _form;
+        private Panel _splashPanel;
 
-        public WinFormsApp(FormMain form)
+        public WinFormsApp(FormMain form, Panel splashPanel)
         {
-            Form = form;
+            _form = form;
+            _splashPanel = splashPanel;
         }
 
         public void Close()
         {
-            Form.InvokeOnUiThreadIfRequired(() =>
+            _form.InvokeOnUiThreadIfRequired(() =>
             {
-                Form.Close();  
+                _form.Close();  
+            });
+        }
+
+        public void Ready()
+        {
+            _form.InvokeOnUiThreadIfRequired(() =>
+            {
+                _form.Controls.Remove(_splashPanel);
             });
         }
     }

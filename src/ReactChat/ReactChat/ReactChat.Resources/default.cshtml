@@ -44,8 +44,15 @@
             window.winForm = window.winForm || {
                 close: function() {
                     window.close();
+                },
+                ready: function () {
+                    //noop for web
                 }
-            }
+            };
+
+            $(document).ready(function () {
+                window.winForm.ready();
+            });
         </script>
     </body>
 </html>

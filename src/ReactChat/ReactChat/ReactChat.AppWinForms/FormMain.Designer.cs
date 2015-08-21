@@ -28,21 +28,39 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
+            this.splashPanel = new System.Windows.Forms.Panel();
             this.SuspendLayout();
+            // 
+            // splashPanel
+            // 
+            this.splashPanel.BackgroundImage = global::ReactChat.AppWinForms.Properties.Resources.fulllogo;
+            this.splashPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.splashPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splashPanel.Location = new System.Drawing.Point(0, 0);
+            this.splashPanel.Name = "splashPanel";
+            this.splashPanel.Size = new System.Drawing.Size(555, 369);
+            this.splashPanel.TabIndex = 0;
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.AutoSize = true;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.ClientSize = new System.Drawing.Size(555, 369);
+            this.Controls.Add(this.splashPanel);
+            this.DoubleBuffered = true;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormMain";
             this.Text = "FormMain";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private System.Windows.Forms.Panel splashPanel;
     }
 }
 
