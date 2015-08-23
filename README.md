@@ -1,5 +1,11 @@
 # React Chat Apps
-A chat demo of building a cross-platform application using the `React Desktop Apps` template from the ServiceStackVS extension. In this demo we've ported the [Chat-React demo application](https://github.com/ServiceStackApps/Chat-React) to the React Desktop Apps template to take advantage of [CefSharp](https://github.com/cefsharp/CefSharp) to help build a more native feeling applications using great tools and frameworks from the web!
+A chat demo of building a React application to target multiple platforms using the `React Desktop Apps` template from the ServiceStackVS extension. In this demo we've ported the [Chat-React demo application](https://github.com/ServiceStackApps/Chat-React) to the React Desktop Apps template to take advantage of [CefSharp](https://github.com/cefsharp/CefSharp) to help build a more native feeling applications using great tools and frameworks from the web!
+
+This application can be deployed in multiple contexts from the same solution.
+
+- Web
+- Console (cross-platform)
+- Windows (CefSharp.WinForms application)
 
 ![WinForms application with loading splash screen](https://github.com/ServiceStack/Assets/raw/master/img/livedemos/react-desktop-apps/react-desktop-apps-winforms.gif)
 
@@ -47,6 +53,8 @@ We can look at React Chat's dependencies to see how this looks:
 During development the HTML comments are ignored and React Chat runs like a normal static html website. Then when packaging the client app for deployment (i.e. by running the `03-package-client` task), the build annotations instructs Gulp on how to package and optimize the app ready for production.
 
 As seen in the above example, each build instruction can span one or multiple references of the same type and optionally specify the target filename to write the compressed and minified output to.
+
+The ServiceStackVS React Desktop Apps template also includes projects, scripts and Grunt tasks to package and deploy the same web application as a cross-platform console application and CefSharp based WinForms application. Just by running `grunt`, Web, Console and Windows applications are staged ready for deployment without changing your development workflow.
 
 ### Design-time only resources
 
