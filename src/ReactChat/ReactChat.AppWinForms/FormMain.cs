@@ -43,7 +43,7 @@ namespace ReactChat.AppWinForms
 
         public void ToggleFormBorder()
         {
-            Invoke((MethodInvoker)delegate {
+            this.InvokeOnUiThreadIfRequired(() => {
                 FormBorderStyle = FormBorderStyle == FormBorderStyle.None
                     ? FormBorderStyle.Sizable
                     : FormBorderStyle.None;
@@ -52,7 +52,7 @@ namespace ReactChat.AppWinForms
 
         public void DockLeft()
         {
-            Invoke((MethodInvoker)delegate {
+            this.InvokeOnUiThreadIfRequired(() => {
                 Left = 0;
                 Width = Screen.PrimaryScreen.WorkingArea.Width / 2;
                 Height = Screen.PrimaryScreen.WorkingArea.Height;
@@ -61,7 +61,7 @@ namespace ReactChat.AppWinForms
 
         public void DockRight()
         {
-            Invoke((MethodInvoker)delegate {
+            this.InvokeOnUiThreadIfRequired(() => {
                 Left = Screen.PrimaryScreen.WorkingArea.Width / 2;
                 Width = Screen.PrimaryScreen.WorkingArea.Width / 2;
                 Height = Screen.PrimaryScreen.WorkingArea.Height;
@@ -79,28 +79,26 @@ namespace ReactChat.AppWinForms
 
     public class WinFormsApp
     {
-        private FormMain _form;
-        private Panel _splashPanel;
+        private FormMain form;
+        private Panel splashPanel;
 
         public WinFormsApp(FormMain form, Panel splashPanel)
         {
-            _form = form;
-            _splashPanel = splashPanel;
+            this.form = form;
+            this.splashPanel = splashPanel;
         }
 
         public void Close()
         {
-            _form.InvokeOnUiThreadIfRequired(() =>
-            {
-                _form.Close();  
+            form.InvokeOnUiThreadIfRequired(() => {
+                form.Close();  
             });
         }
 
         public void Ready()
         {
-            _form.InvokeOnUiThreadIfRequired(() =>
-            {
-                _form.Controls.Remove(_splashPanel);
+            form.InvokeOnUiThreadIfRequired(() => {
+                form.Controls.Remove(splashPanel);
             });
         }
     }
