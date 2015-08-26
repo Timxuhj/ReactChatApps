@@ -1,3 +1,4 @@
+@echo off
 IF EXIST staging-console (
 RMDIR /S /Q .\staging-console
 )
@@ -29,4 +30,6 @@ IF NOT EXIST apps (
 MD apps
 )
 
-COPY /Y .\staging-console\%OUTPUTNAME% .\apps\ReactChat-console.exe
+COPY /Y .\staging-console\%OUTPUTNAME% .\apps\%OUTPUTNAME%
+
+echo ------------- && echo  deployed to: .\wwwroot_build\apps\%OUTPUTNAME% && echo -------------
