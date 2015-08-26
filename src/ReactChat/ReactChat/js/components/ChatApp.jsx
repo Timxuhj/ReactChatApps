@@ -38,7 +38,7 @@ var ChatApp = React.createClass({
         this.source.onerror = function (e) {
             Actions.logError(e);
         };
-        $.ss.eventReceivers = { "document": document };
+        $.ss.eventReceivers = { "window": window };
         $(this.source).handleServerEvents({
             handlers: {
                 onConnect: function (u) {
@@ -60,12 +60,19 @@ var ChatApp = React.createClass({
                 chat: function (msg, e) {
                     msg.channel = e.channel;
                     Actions.addMessages([msg]);
+                },
+                toggleFormBorder: function () {
+                    window.formMain.toggleFormBorder();
                 }
             },
             receivers: {
                 tv: {
                     watch: this.tvOn,
                     off: this.tvOff
+                },
+                formMain: {
+                    dockLeft: function () { window.formMain.dockLeft(); },
+                    dockRight: function () { window.formMain.dockRight(); }
                 }
             }
         });

@@ -16,16 +16,13 @@ namespace ReactChat.AppWinForms
             {
                 Dock = DockStyle.Fill
             };
-
             Controls.Add(chromiumBrowser);
 
             Load += (sender, args) =>
             {
-                FormBorderStyle = FormBorderStyle.None;
                 Left = Top = 0;
                 Width = Screen.PrimaryScreen.WorkingArea.Width;
                 Height = Screen.PrimaryScreen.WorkingArea.Height;
-                
             };
 
             FormClosing += (sender, args) =>
@@ -41,6 +38,34 @@ namespace ReactChat.AppWinForms
 
             chromiumBrowser.RegisterJsObject("aboutDialog", new AboutDialogJsObject());
             chromiumBrowser.RegisterJsObject("winForm",new WinFormsApp(this, splashPanel));
+            chromiumBrowser.RegisterJsObject("formMain", this);
+        }
+
+        public void ToggleFormBorder()
+        {
+            Invoke((MethodInvoker)delegate {
+                FormBorderStyle = FormBorderStyle == FormBorderStyle.None
+                    ? FormBorderStyle.Sizable
+                    : FormBorderStyle.None;
+            });
+        }
+
+        public void DockLeft()
+        {
+            Invoke((MethodInvoker)delegate {
+                Left = 0;
+                Width = Screen.PrimaryScreen.WorkingArea.Width / 2;
+                Height = Screen.PrimaryScreen.WorkingArea.Height;
+            });
+        }
+
+        public void DockRight()
+        {
+            Invoke((MethodInvoker)delegate {
+                Left = Screen.PrimaryScreen.WorkingArea.Width / 2;
+                Width = Screen.PrimaryScreen.WorkingArea.Width / 2;
+                Height = Screen.PrimaryScreen.WorkingArea.Height;
+            });
         }
     }
 
