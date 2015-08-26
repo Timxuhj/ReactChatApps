@@ -6,7 +6,7 @@ RMDIR /S /Q .\staging-console
 MD staging-console
 
 SET TOOLS=.\tools
-SET OUTPUTNAME=ReactChat.Console.exe
+SET OUTPUTNAME=ReactChat-console.exe
 SET ILMERGE=%TOOLS%\ILMerge.exe
 SET RELEASE=..\..\ReactChat.AppConsole\bin\x86\Release
 SET INPUT=%RELEASE%\ReactChat.AppConsole.exe
