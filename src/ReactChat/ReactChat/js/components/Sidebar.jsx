@@ -24,8 +24,7 @@ var Sidebar = React.createClass({
                         <h4><a href="https://github.com/ServiceStackApps/Chat#modifying-css-via-jquery">CSS</a></h4>
                         <div>/css.background-image url(http://bit.ly/1oQqhtm)</div>
                         <div>/css.background-image url(http://bit.ly/1yIJOBH)</div>
-                        <div>@me /css.background #eceff1</div>
-                        <div>/css.background$#top #673ab7</div>
+                        <div>@me /css.background$#top #673ab7</div>
                         <div>/css.background$#bottom #0091ea</div>
                         <div>/css.background$#right #fffde7</div>
                         <div>/css.color$#welcome #ff0</div>
