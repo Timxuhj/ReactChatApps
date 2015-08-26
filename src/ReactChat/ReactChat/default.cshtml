@@ -35,7 +35,8 @@
         isAuthenticated: @IsAuthenticated.ToString().ToLower(),
         eventStreamUrl: '/event-stream?channels=@channels&t=' + new Date().getTime(),
         channelSubscribersUrl: '/event-subscribers?channels=@channels',
-        chatHistoryUrl: '/chathistory?channels=@channels'
+        chatHistoryUrl: '/chathistory?channels=@channels',
+        isWinforms: !!window.winForm 
     };
     </script>
 

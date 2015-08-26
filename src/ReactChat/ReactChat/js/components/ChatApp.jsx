@@ -135,7 +135,7 @@ var ChatApp = React.createClass({
 
                 <div ref="announce" id="announce">{this.state.announce}</div>
                 <div ref="tv" id="tv" style={{display: showTv}}>{this.state.tvUrl}</div>
-                <Sidebar users={this.state.users} />
+                <Sidebar users={this.state.users} isWinforms={this.props.isWinforms} />
 
                 <ChatLog ref="chatLog"
                          messages={this.state.messages} 
@@ -154,6 +154,7 @@ React.render(
     <ChatApp channel={AppData.selectedChannel}
              isAuthenticated={AppData.isAuthenticated} 
              eventStreamUrl={AppData.eventStreamUrl}
-             chatHistoryUrl={AppData.chatHistoryUrl} />,
+             chatHistoryUrl={AppData.chatHistoryUrl}
+             isWinforms={AppData.isWinforms} />,
     document.getElementById('app')
 );
