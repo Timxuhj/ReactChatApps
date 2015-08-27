@@ -1,88 +1,13 @@
 # React Chat Apps
-A chat demo of building a React application to target multiple platforms using the `React Desktop Apps` template from the ServiceStackVS extension. In this demo we've ported the [Chat-React demo application](https://github.com/ServiceStackApps/Chat-React) to the React Desktop Apps template to take advantage of [CefSharp](https://github.com/cefsharp/CefSharp) to help build a more native feeling applications using great tools and frameworks from the web!
+A chat demo of building a React application to target multiple platforms using the `React Desktop Apps` template from the ServiceStackVS extension. In this demo we've ported the [Chat-React demo application](https://github.com/ServiceStackApps/Chat-React) to the React Desktop Apps template to take advantage of [CefSharp](https://github.com/cefsharp/CefSharp) to help you get the benefits of native applications whilst using great tools and frameworks from the web!
 
-This application can be deployed in multiple contexts from the same solution.
+The React Desktop Apps template is setup ready to deploy to multiple target platforms, just by running a grunt task after creating our solution, we have 3 working applications including:
 
-- Web
-- Console (cross-platform)
-- Windows (CefSharp.WinForms application)
+- Web - Ready to deploy.
+- Console - Single portable, cross platform executable that utilises the user's default browser.
+- Windows - Native Windows application using an embedded browser.
 
 ![WinForms application with loading splash screen](https://github.com/ServiceStack/Assets/raw/master/img/livedemos/react-desktop-apps/react-desktop-apps-winforms.gif)
-
-## Optimal Development and Deployment workflow
-
-Fast dev iterations are one of the immediate benefits when developing JavaScript-based Apps, made possible since you're editing the same plain text files browsers execute, so they get quickly rendered after each refresh without needing to wait for the rebuilding of VS.NET projects or ASP.NET's AppDomain to restart. 
-
-> This fast dev cycle also extends to [ServiceStack Razor](http://razor.servicestack.net/) dynamic server pages which supports live-reloading of modified `.cshtml` Razor Views so they're view-able on-the-fly without an AppDomain restart.
-
-For minimal friction, the Gulp/Grunt build system takes a non-invasive approach that works around normal web dev practices of being able to reference external css, js files - retaining the development experience of a normal static html website where any changes to html, js or css files are instantly visible after a refresh. 
-
-Then to package your app for optimal deployment to production, [Gulp's useref](https://www.npmjs.org/package/gulp-useref) plugin lets you annotate existing references with how you want them bundled. This is ideal as the existing external references (and their ordering) remains the master source for your Apps dependencies, reducing the maintenance and friction required in developing and packaging optimized Single Page Apps.
-
-We can look at React Chat's dependencies to see how this looks:
-
-```html
-<!--build:css css/app.min.css-->
-<link rel="stylesheet" href="css/app.css" />
-<!-- endbuild -->
-<!-- build:js lib/js/jquery.min.js -->
-<script src="bower_components/jquery/dist/jquery.js"></script>
-<!-- endbuild -->
-<!-- build:js lib/js/react.min.js -->
-<script src="bower_components/react/react.js"></script>
-<!-- endbuild -->
-<!-- build:js lib/js/reflux.min.js -->
-<script src="bower_components/reflux/dist/reflux.js"></script>
-<!-- endbuild -->
-<!-- build:remove -->
-<script src="bower_components/react/JSXTransformer.js"></script>
-<!-- endbuild -->
-<script src="js/ss-utils.js"></script>
-...
-<!-- build:js js/app.jsx.js -->
-<script type="text/jsx" src="js/components/Actions.js"></script>
-<script type="text/jsx" src="js/components/User.jsx"></script>
-<script type="text/jsx" src="js/components/Header.jsx"></script>
-<script type="text/jsx" src="js/components/Sidebar.jsx"></script>
-<script type="text/jsx" src="js/components/ChatLog.jsx"></script>
-<script type="text/jsx" src="js/components/Footer.jsx"></script>
-<script type="text/jsx" src="js/components/ChatApp.jsx"></script>
-<!-- endbuild -->
-```
-
-During development the HTML comments are ignored and React Chat runs like a normal static html website. Then when packaging the client app for deployment (i.e. by running the `03-package-client` task), the build annotations instructs Gulp on how to package and optimize the app ready for production.
-
-As seen in the above example, each build instruction can span one or multiple references of the same type and optionally specify the target filename to write the compressed and minified output to.
-
-The ServiceStackVS React Desktop Apps template also includes projects, scripts and Grunt tasks to package and deploy the same web application as a cross-platform console application and CefSharp based WinForms application. Just by running `grunt`, Web, Console and Windows applications are staged ready for deployment without changing your development workflow.
-
-### Design-time only resources
-
-Gulp also supports design-time vs run-time dependencies with the `build:remove` task which can be used to remove any unnecessary dependencies not required in production like react's `JSXTransformer.js`:
-
-```html
-<!-- build:remove -->
-<script src="bower_components/react/JSXTransformer.js"></script>
-<!-- endbuild -->
-```
-
-React's `JSXTransformer.js` is what enables the optimal experience of letting you directly reference `.jsx` files in HTML as if they were normal `.js` files by transpiling and executing `.jsx` files directly in the browser at runtime - avoiding the need for any manual pre-compilation steps and retaining the fast `F5` reload cycle that we've come to expect from editing `.js` files. 
-
-```html
-<!-- build:js js/app.jsx.js -->
-<script type="text/jsx" src="js/components/Actions.js"></script>
-<script type="text/jsx" src="js/components/User.jsx"></script>
-<script type="text/jsx" src="js/components/Header.jsx"></script>
-<script type="text/jsx" src="js/components/Sidebar.jsx"></script>
-<script type="text/jsx" src="js/components/ChatLog.jsx"></script>
-<script type="text/jsx" src="js/components/Footer.jsx"></script>
-<script type="text/jsx" src="js/components/ChatApp.jsx"></script>
-<!-- endbuild -->
-```
-
-Then when the client app is packaged, all `.jsx` files are compiled and minified into a single `/js/app.jsx.js` with the reference to `JSXTransformer.js` also stripped from the optimized HTML page as there's no longer any need to transpile and execute `.jsx` files at runtime.
-
-**For more info on working with React, see the [Chat-React project](https://github.com/ServiceStackApps/Chat-React#introducing-reactjs) documentation.** 
 
 # Project Structure
 Just like other templates in ServiceStackVS, the **React Desktop Apps** template provides the same recommended structure as well as 3 additional other projects for producing the Console and WinForms applications.
@@ -435,4 +360,33 @@ This Grunt task uses the same conventions as those found in the AngularJS and Re
 If you are using **Github's default Visual Studio ignore, this file will not be included in source control** due to the default rule of `publish/` to be ignored. You should check your Git Repository `.gitignore` rules before committing any potentially sensitive information into public source control.
 
 This task shows a quick way of updating your development server quickly after making changes to your application. For more information on use web-deploy using either Grunt or just Visual Studio publish, see '[WebDeploy with AWS](https://github.com/ServiceStack/ServiceStack/wiki/WebDeploy-with-AWS#deploy-using-grunt)'.
+
+### Design-time only resources
+
+Gulp also supports design-time vs run-time dependencies with the `build:remove` task which can be used to remove any unnecessary dependencies not required in production like react's `JSXTransformer.js`:
+
+```html
+<!-- build:remove -->
+<script src="bower_components/react/JSXTransformer.js"></script>
+<!-- endbuild -->
+```
+
+React's `JSXTransformer.js` is what enables the optimal experience of letting you directly reference `.jsx` files in HTML as if they were normal `.js` files by transpiling and executing `.jsx` files directly in the browser at runtime - avoiding the need for any manual pre-compilation steps and retaining the fast `F5` reload cycle that we've come to expect from editing `.js` files. 
+
+```html
+<!-- build:js js/app.jsx.js -->
+<script type="text/jsx" src="js/components/Actions.js"></script>
+<script type="text/jsx" src="js/components/User.jsx"></script>
+<script type="text/jsx" src="js/components/Header.jsx"></script>
+<script type="text/jsx" src="js/components/Sidebar.jsx"></script>
+<script type="text/jsx" src="js/components/ChatLog.jsx"></script>
+<script type="text/jsx" src="js/components/Footer.jsx"></script>
+<script type="text/jsx" src="js/components/ChatApp.jsx"></script>
+<!-- endbuild -->
+```
+
+Then when the client app is packaged, all `.jsx` files are compiled and minified into a single `/js/app.jsx.js` with the reference to `JSXTransformer.js` also stripped from the optimized HTML page as there's no longer any need to transpile and execute `.jsx` files at runtime.
+
+**For more info on working with React, see the [Chat-React project](https://github.com/ServiceStackApps/Chat-React#introducing-reactjs) documentation.** 
+
 
