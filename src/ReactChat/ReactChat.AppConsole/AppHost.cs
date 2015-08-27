@@ -13,6 +13,7 @@ using ServiceStack.Auth;
 using ServiceStack.Redis;
 using ServiceStack.Text;
 using System.IO;
+using System.Reflection;
 using ServiceStack.Configuration;
 
 namespace ReactChat.AppConsole
@@ -24,7 +25,7 @@ namespace ReactChat.AppConsole
         /// Base constructor requires a name and assembly to locate web service classes. 
         /// </summary>
         public AppHost()
-            : base("ReactChat.AppConsole", typeof(ServerEventsServices).Assembly)
+            : base("ReactChat.AppConsole", typeof(ServerEventsServices).Assembly, typeof(AppHost).Assembly)
         {
             var customSettings = new FileInfo("appsettings.txt");
             AppSettings = customSettings.Exists
@@ -95,6 +96,13 @@ namespace ReactChat.AppConsole
         private void InitializeAppSettings()
         {
             var allKeys = AppSettings.GetAllKeys();
+            if (!allKeys.Contains("platformsClassName"))
+                AppSettings.Set("platformsClassName", "console");
+            if (!allKeys.Contains("PlatformCss"))
+                AppSettings.Set("PlatformCss", "console.css");
+            if (!allKeys.Contains("PlatformJs"))
+                AppSettings.Set("PlatformJs", "console.js");
+
             if(!allKeys.Contains("oauth.RedirectUrl"))
                 AppSettings.Set("oauth.RedirectUrl", Program.HostUrl);
             if(!allKeys.Contains("oauth.CallbackUrl"))
@@ -105,6 +113,32 @@ namespace ReactChat.AppConsole
                 AppSettings.Set("oauth.twitter.ConsumerSecret", "bKwpp31AS90MUBw1s1w0pIIdYdVEdPLa1VvobUr7IXR762hdUn");
             //if (!allKeys.Contains("RedisHost"))
             //    AppSettings.Set("RedisHost", "localhost:6379");
+        }
+    }
+
+    public class NativeHostService : Service
+    {
+        public object Get(NativeHostAction request)
+        {
+            Type nativeHostType = typeof(NativeHost);
+            object nativeHost = nativeHostType.CreateInstance<NativeHost>();
+            MethodInfo theMethod = nativeHostType.GetMethod(request.Action.ToTitleCase());
+            theMethod.Invoke(nativeHost, null);
+            return null;
+        }
+    }
+
+    [Route("/nativehost/{Action}")]
+    public class NativeHostAction : IReturnVoid
+    {
+        public string Action { get; set; }
+    }
+
+    public class NativeHost
+    {
+        public void Quit()
+        {
+            Environment.Exit(0);
         }
     }
 }

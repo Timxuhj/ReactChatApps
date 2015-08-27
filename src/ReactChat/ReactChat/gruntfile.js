@@ -39,6 +39,7 @@ module.exports = function (grunt) {
                 options: {
                     projectConfiguration: 'Release',
                     targets: ['Clean', 'Rebuild'],
+                    outputType: 'winExe',
                     stdout: true,
                     version: 4.0,
                     maxCpuCount: 4,
@@ -180,6 +181,10 @@ module.exports = function (grunt) {
                     .pipe(gulp.dest(resourcesRoot + 'img/'))
                     .pipe(gulp.dest(webRoot + 'img/'));
             },
+            'wwwroot-copy-webjs': function() {
+                return gulp.src('./js/web.js')
+                   .pipe(gulp.dest(webRoot + 'js/'));
+            },
             'wwwroot-bundle': function () {
                 var assets = useref.assets({ searchPath: './' });
                 var checkIfJsx = function (file) {
@@ -222,6 +227,7 @@ module.exports = function (grunt) {
         'gulp:wwwroot-copy-partials',
         'gulp:wwwroot-copy-fonts',
         'gulp:wwwroot-copy-images',
+        'gulp:wwwroot-copy-webjs',
         'gulp:wwwroot-bundle'
     ]);
 

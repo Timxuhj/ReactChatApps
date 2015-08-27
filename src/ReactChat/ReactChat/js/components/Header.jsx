@@ -11,10 +11,10 @@ var Header = React.createClass({
         Actions.channelSelected(e.target.getAttribute('data-channel'));
     },
 	showDialog: function () {
-		window.aboutDialog.show();
+		window.nativeHost.showAbout();
 	},
 	exitApplication: function() {
-		window.winForm.close();
+		window.nativeHost.quit();
 	},
     render: function() {
         var $this = this;

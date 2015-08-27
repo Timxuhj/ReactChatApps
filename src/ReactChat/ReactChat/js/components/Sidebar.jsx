@@ -4,7 +4,10 @@ var Sidebar = React.createClass({
     },
     toggleExamples: function(e) {
         this.setState({ hideExamples: !this.state.hideExamples });
-    },  
+    },
+	isWinforms: function() {
+		return window.nativeHost.platform === 'winforms';
+	},
     render: function() {
         var height = this.state.hideExamples ? '25px' : 'auto',
             label = this.state.hideExamples ? 'show' : 'hide';
@@ -19,7 +22,7 @@ var Sidebar = React.createClass({
                     <span style={{position: 'absolute', top: '2px', right: '7px'}} onClick={this.toggleExamples}>{label}</span>
                     <span data-click="sendCommand">
                         <h4><a href="https://github.com/ServiceStackApps/Chat#global-event-handlers">Example Commands</a></h4>
-                        { this.props.isWinforms ? <div>/cmd.toggleFormBorder</div> : null}
+                        { this.isWinforms() ? <div>/cmd.toggleFormBorder</div> : null}
                         <div>/cmd.announce This is your captain speaking ...</div>
                         <div>/cmd.toggle$#channels</div>
                         <h4><a href="https://github.com/ServiceStackApps/Chat#modifying-css-via-jquery">CSS</a></h4>
@@ -35,8 +38,8 @@ var Sidebar = React.createClass({
                         <div>/tv.watch http://youtu.be/518XP8prwZo</div>
                         <div>/tv.watch https://servicestack.net/img/logo-220.png</div>
                         <div>@me /tv.off</div>
-                        { this.props.isWinforms ? <div>/formMain.dockLeft</div> : null}
-                        { this.props.isWinforms ? <div>/formMain.dockRight</div> : null}
+                        { this.isWinforms() ? <div>/formMain.dockLeft</div> : null}
+                        { this.isWinforms() ? <div>/formMain.dockRight</div> : null}
                         <div>/window.location http://google.com</div>
                         <h4><a href="https://github.com/ServiceStackApps/Chat#jquery-events">Triggers</a></h4>
                         <div>/trigger.customEvent arg</div>

@@ -62,7 +62,7 @@ var ChatApp = React.createClass({
                     Actions.addMessages([msg]);
                 },
                 toggleFormBorder: function () {
-                    window.formMain.toggleFormBorder();
+                    window.nativeHost.toggleFormBorder();
                 }
             },
             receivers: {
@@ -71,8 +71,8 @@ var ChatApp = React.createClass({
                     off: this.tvOff
                 },
                 formMain: {
-                    dockLeft: function () { window.formMain.dockLeft(); },
-                    dockRight: function () { window.formMain.dockRight(); }
+                    dockLeft: function () { window.nativeHost.dockLeft(); },
+                    dockRight: function () { window.nativeHost.dockRight(); }
                 }
             }
         });
@@ -135,7 +135,7 @@ var ChatApp = React.createClass({
 
                 <div ref="announce" id="announce">{this.state.announce}</div>
                 <div ref="tv" id="tv" style={{display: showTv}}>{this.state.tvUrl}</div>
-                <Sidebar users={this.state.users} isWinforms={this.props.isWinforms} />
+                <Sidebar users={this.state.users} />
 
                 <ChatLog ref="chatLog"
                          messages={this.state.messages} 
@@ -154,7 +154,6 @@ React.render(
     <ChatApp channel={AppData.selectedChannel}
              isAuthenticated={AppData.isAuthenticated} 
              eventStreamUrl={AppData.eventStreamUrl}
-             chatHistoryUrl={AppData.chatHistoryUrl}
-             isWinforms={AppData.isWinforms} />,
+             chatHistoryUrl={AppData.chatHistoryUrl} />,
     document.getElementById('app')
 );

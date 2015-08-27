@@ -2,14 +2,19 @@
 @{
     ViewBag.Title = "Server Sent Events Chat";
     var channels = Request.QueryString["channels"] ?? "home";
+    var platformsClassName = AppSettings.Exists("PlatformClassName") ? AppSettings.GetString("PlatformClassName") : "web";
 }
 <!DOCTYPE html>
-<html>
+<html @platformsClassName>
 <head lang="en">
     <meta charset="UTF-8">
     <!--build:css css/app.min.css-->
     <link rel="stylesheet" href="css/app.css" />
     <!-- endbuild -->
+    @if (AppSettings.Exists("PlatformCss"))
+    {
+        <link rel="stylesheet" href="@AppSettings.GetString("PlatformCss")"/>
+    }
     <!-- build:js lib/js/jquery.min.js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <!-- endbuild -->
@@ -23,6 +28,11 @@
     <script src="bower_components/react/JSXTransformer.js"></script>
     <!-- endbuild -->
 
+    @if (AppSettings.Exists("PlatformJs"))
+    {
+        <script src="@AppSettings.GetString("PlatformJs")"></script>
+    }
+
     <script src="js/ss-utils.js"></script>
     <title>React Template</title>
     <link href="/img/favicon.png" rel="icon">
@@ -35,8 +45,7 @@
         isAuthenticated: @IsAuthenticated.ToString().ToLower(),
         eventStreamUrl: '/event-stream?channels=@channels&t=' + new Date().getTime(),
         channelSubscribersUrl: '/event-subscribers?channels=@channels',
-        chatHistoryUrl: '/chathistory?channels=@channels',
-        isWinforms: !!window.winForm 
+        chatHistoryUrl: '/chathistory?channels=@channels'
     };
     </script>
 
@@ -59,25 +68,5 @@
         <script type="text/jsx" src="js/components/ChatApp.jsx">
         </script>
         <!-- endbuild -->
-        <script>
-            //Show about function for local dev, hooks into winforms when depoyed.
-            window.aboutDialog = window.aboutDialog || {
-                show: function() {
-                    alert("ReactChat - ServiceStack + ReactJS");
-                }
-            };
-            window.winForm = window.winForm || {
-                close: function() {
-                    window.close();
-                },
-                ready: function () {
-                    //noop for web
-                }
-            };
-
-            $(document).ready(function () {
-                window.winForm.ready();
-            });
-        </script>
     </body>
 </html>
