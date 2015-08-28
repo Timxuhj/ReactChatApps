@@ -75,15 +75,15 @@ namespace ReactChatMac
 
 			container.RegisterAutoWiredAs<MemoryChatHistory, IChatHistory>();
 
-//			var redisHost = AppSettings.GetString("RedisHost");
-//			if (redisHost != null)
-//			{
-//				container.Register<IRedisClientsManager>(new RedisManagerPool(redisHost));
-//
-//				container.Register<IServerEvents>(c =>
-//					new RedisServerEvents(c.Resolve<IRedisClientsManager>()));
-//				container.Resolve<IServerEvents>().Start();
-//			}
+			var redisHost = AppSettings.GetString("RedisHost");
+			if (redisHost != null)
+			{
+				container.Register<IRedisClientsManager>(new RedisManagerPool(redisHost));
+
+				container.Register<IServerEvents>(c =>
+					new RedisServerEvents(c.Resolve<IRedisClientsManager>()));
+				container.Resolve<IServerEvents>().Start();
+			}
 
 			// This route is added using Routes.Add and ServiceController.RegisterService due to
 			// using ILMerge limiting our AppHost : base() call to one assembly.
