@@ -13,7 +13,7 @@
     <!-- endbuild -->
     @if (AppSettings.Exists("PlatformCss"))
     {
-        <link rel="stylesheet" href="@AppSettings.GetString("PlatformCss")"/>
+        <link rel="stylesheet" href="@(AppSettings.GetString("PlatformCss") + "?disableCache=" + DateTime.UtcNow.Ticks)"/>
     }
     <!-- build:js lib/js/jquery.min.js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -30,7 +30,7 @@
 
     @if (AppSettings.Exists("PlatformJs"))
     {
-        <script src="@AppSettings.GetString("PlatformJs")"></script>
+        <script src="@(AppSettings.GetString("PlatformJs") + "?disableCache=" + DateTime.UtcNow.Ticks)"></script>
     }
 
     <script src="js/ss-utils.js"></script>

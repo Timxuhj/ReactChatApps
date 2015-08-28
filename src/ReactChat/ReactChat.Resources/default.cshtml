@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="css/app.min.css">
     @if (AppSettings.Exists("PlatformCss"))
     {
-        <link rel="stylesheet" href="@AppSettings.GetString("PlatformCss")"/>
+        <link rel="stylesheet" href="@(AppSettings.GetString("PlatformCss") + "?disableCache=" + DateTime.UtcNow.Ticks)"/>
     }
     <script src="lib/js/jquery.min.js"></script>
     <script src="lib/js/react.min.js"></script>
@@ -20,7 +20,7 @@
 
     @if (AppSettings.Exists("PlatformJs"))
     {
-        <script src="@AppSettings.GetString("PlatformJs")"></script>
+        <script src="@(AppSettings.GetString("PlatformJs") + "?disableCache=" + DateTime.UtcNow.Ticks)"></script>
     }
 
     <script src="js/ss-utils.js"></script>
