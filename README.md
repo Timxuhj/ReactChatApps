@@ -29,7 +29,7 @@ Just like other templates in ServiceStackVS, the **React Desktop Apps** template
 #### ReactChat Project
 This project contains all our development resources, JS/JSX, CSS, images, Razor views, etc. This project also has all the required Grunt/Gulp tasks used for deploying the 3 application outputs. Taking advantage of Visual Studio 2015's Task Runner Explorer, we can look at the `Alias` tasks to get an idea of how we can build and deploy our console, winforms and web application.
 
-![](https://github.com/ServiceStack/Assets/raw/master/img/servicestackvs/react-desktop-apps-task-runner.png)
+![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/gap/react-desktop-tasks.png)
 
 - **default** - grunt task builds and packages both the console and winforms projects by running `02-package-console` and `03-package-winforms`.
 - [**01-bundle-all**](#01-bundle-all) - bundles all the application resources into the `Resources` project and into `wwwroot` to stage the web application for deployment
