@@ -25,7 +25,7 @@ namespace ReactChat.AppConsole
         /// Base constructor requires a name and assembly to locate web service classes. 
         /// </summary>
         public AppHost()
-            : base("ReactChat.AppConsole", typeof(ServerEventsServices).Assembly, typeof(AppHost).Assembly)
+            : base("ReactChat.AppConsole", typeof(ServerEventsServices).Assembly)
         {
             var customSettings = new FileInfo("appsettings.txt");
             AppSettings = customSettings.Exists
@@ -91,6 +91,12 @@ namespace ReactChat.AppConsole
                     new RedisServerEvents(c.Resolve<IRedisClientsManager>()));
                 container.Resolve<IServerEvents>().Start();
             }
+
+            // This route is added using Routes.Add and ServiceController.RegisterService due to
+            // using ILMerge limiting our AppHost : base() call to one assembly.
+            // If two assemblies are used, the base() call searchs the same assembly twice due to the ILMerged result.
+            Routes.Add<NativeHostAction>("/nativehost/{Action}");
+            ServiceController.RegisterService(typeof(NativeHostService));
         }
 
         private void InitializeAppSettings()
@@ -128,7 +134,6 @@ namespace ReactChat.AppConsole
         }
     }
 
-    [Route("/nativehost/{Action}")]
     public class NativeHostAction : IReturnVoid
     {
         public string Action { get; set; }
