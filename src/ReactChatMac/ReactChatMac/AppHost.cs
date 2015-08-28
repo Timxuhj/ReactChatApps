@@ -139,20 +139,14 @@ namespace ReactChatMac
 
 	public class NativeHost
 	{
-
 		public void ShowAbout()
 		{
-			var alert = new NSAlert {
-				MessageText = "About",
-				AlertStyle = NSAlertStyle.Informational
-			};
-			alert.AddButton ("OK");
-			alert.AddButton ("Cancel");
-			alert.InvokeOnMainThread (() => {
-				var responseAlert = alert.RunModal();
-
-				if (responseAlert == 1000) {
-					// Do something
+			//Invoke native about menu item programmatically.
+			MainClass.MainMenu.InvokeOnMainThread (() => {
+				foreach (var item in MainClass.MainMenu.ItemArray()) {
+					if (item.Title == "ReactChatMac") {
+						item.Submenu.PerformActionForItem(0);
+					}
 				}
 			});
 		}
@@ -161,8 +155,6 @@ namespace ReactChatMac
 		{
 			Environment.Exit(0);
 		}
-
-
 	}
 }
 

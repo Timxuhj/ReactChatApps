@@ -37,15 +37,12 @@ namespace ReactChatMac
 		public override void AwakeFromNib ()
 		{
 			base.AwakeFromNib ();
-			MainClass.MainMenu = this.Menu;
+			MainClass.MainMenu = NSApplication.SharedApplication.MainMenu;
 			webView.MainFrameUrl = MainClass.HostUrl;
 			webView.Frame = new System.Drawing.RectangleF(0,0,this.Frame.Width,this.Frame.Height);
 			this.DidResize += (sender, e) =>  {
 				webView.Frame = new System.Drawing.RectangleF(0,0,this.Frame.Width,this.Frame.Height);
 			};
 		}
-
 	}
 }
-
-

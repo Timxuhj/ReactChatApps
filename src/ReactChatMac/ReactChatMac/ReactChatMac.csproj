@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectTypeGuids>{948B3504-5B70-4649-8FE4-BDE1FB46EC69};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectTypeGuids>{42C0BBD9-55CE-4FC1-8D90-A7348ABAFB23};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <ProjectGuid>{318B96DE-9A31-42A9-8241-84D14472F078}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>ReactChatMac</RootNamespace>
@@ -50,7 +50,6 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
-    <Reference Include="MonoMac" />
     <Reference Include="ReactChat.Resources">
       <HintPath>..\..\lib\ReactChat.Resources.dll</HintPath>
     </Reference>
@@ -78,6 +77,7 @@
     <Reference Include="System.Web.Razor">
       <HintPath>..\packages\ServiceStack.Razor.4.0.42\lib\net45\System.Web.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="XamMac" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppDelegate.cs" />
