@@ -1,5 +1,5 @@
 @echo off
-IF EXIST staging-winforms\ (
+IF EXIST staging-winforms (
 RMDIR /S /Q .\staging-winforms
 )
 

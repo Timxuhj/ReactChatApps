@@ -17,6 +17,7 @@ module.exports = function (grunt) {
     var react = require('gulp-react');
     var resourcesRoot = '../ReactChat.Resources/';
     var webRoot = 'wwwroot/';
+    var resourcesLib = '../../lib/';
 
     // Deployment config
     var config = require('./wwwroot_build/publish/config.json');
@@ -39,7 +40,6 @@ module.exports = function (grunt) {
                 options: {
                     projectConfiguration: 'Release',
                     targets: ['Clean', 'Rebuild'],
-                    outputType: 'winExe',
                     stdout: true,
                     version: 4.0,
                     maxCpuCount: 4,
@@ -79,6 +79,21 @@ module.exports = function (grunt) {
                     },
                     verbosity: 'quiet'
                 }
+            },
+            'release-resources': {
+                src: ['..\\ReactChat.Resources\\ReactChat.Resources.csproj'],
+                options: {
+                    projectConfiguration: 'Release',
+                    targets: ['Clean', 'Rebuild'],
+                    stdout: true,
+                    version: 4.0,
+                    maxCpuCount: 4,
+                    buildParameters: {
+                        WarningLevel: 2,
+                        SolutionDir: '..\\..'
+                    },
+                    verbosity: 'quiet'
+                }
             }
         },
         nugetrestore: {
@@ -92,6 +107,10 @@ module.exports = function (grunt) {
             },
             'restore-webapp': {
                 src: './packages.config',
+                dest: '../../packages/'
+            },
+            'restore-resources': {
+                src: '../ReactChat.Resources/packages.config',
                 dest: '../../packages/'
             }
         },
@@ -206,6 +225,11 @@ module.exports = function (grunt) {
                     .pipe(newer(webRoot))
                     .pipe(gulp.dest(webRoot));
 
+            },
+            'copy-resources-lib': function() {
+                return gulp.src('../ReactChat.Resources/bin/Release/ReactChat.Resources.dll')
+                    .pipe(newer(resourcesLib))
+                    .pipe(gulp.dest(resourcesLib));
             }
         }
     });
@@ -228,7 +252,10 @@ module.exports = function (grunt) {
         'gulp:wwwroot-copy-fonts',
         'gulp:wwwroot-copy-images',
         'gulp:wwwroot-copy-webjs',
-        'gulp:wwwroot-bundle'
+        'gulp:wwwroot-bundle',
+        'nugetrestore:restore-resources',
+        'msbuild:release-resources',
+        'gulp:copy-resources-lib'
     ]);
 
     grunt.registerTask('02-package-console', [

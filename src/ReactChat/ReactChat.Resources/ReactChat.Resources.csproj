@@ -89,19 +89,11 @@
   <ItemGroup>
     <EmbeddedResource Include="css\app.min.css" />
     <EmbeddedResource Include="js\app.jsx.js" />
-    <EmbeddedResource Include="lib\css\bootstrap.min.css" />
-    <EmbeddedResource Include="lib\fonts\glyphicons-halflings-regular.svg" />
-    <EmbeddedResource Include="lib\js\bootstrap.min.js" />
     <EmbeddedResource Include="lib\js\jquery.min.js" />
-    <EmbeddedResource Include="lib\js\modernizr.min.js" />
     <EmbeddedResource Include="lib\js\react.min.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="default.cshtml" />
-    <EmbeddedResource Include="lib\fonts\glyphicons-halflings-regular.eot" />
-    <EmbeddedResource Include="lib\fonts\glyphicons-halflings-regular.ttf" />
-    <EmbeddedResource Include="lib\fonts\glyphicons-halflings-regular.woff" />
-    <EmbeddedResource Include="lib\fonts\glyphicons-halflings-regular.woff2" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
