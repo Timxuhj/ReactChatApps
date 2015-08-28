@@ -1,5 +1,8 @@
 # React Chat Apps
-A chat demo of building a React application to target multiple platforms using the `React Desktop Apps` template from the ServiceStackVS extension. In this demo we've ported the [Chat-React demo application](https://github.com/ServiceStackApps/Chat-React) to the React Desktop Apps template to take advantage of [CefSharp](https://github.com/cefsharp/CefSharp) to help you get the benefits of native applications whilst using great tools and frameworks from the web!
+
+A chat demo of building a React application to target multiple platforms using the **React Desktop Apps** template from the ServiceStackVS extension. In this demo we've ported the [Chat-React demo application](https://github.com/ServiceStackApps/Chat-React) to the React Desktop Apps template to take advantage of [CefSharp](https://github.com/cefsharp/CefSharp) to help you get the benefits of native applications whilst using great tools and frameworks from the web!
+
+![React Desktop Apps](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/gap/react-desktop-splash.png)
 
 The React Desktop Apps template is setup ready to deploy to multiple target platforms, just by running a grunt task after creating our solution, we have 3 working applications including:
 
