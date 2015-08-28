@@ -10,6 +10,7 @@ using System.Net;
 using ServiceStack.Auth;
 using ServiceStack.Redis;
 using MonoMac.AppKit;
+using System.Linq;
 
 namespace ReactChatMac
 {
@@ -118,16 +119,18 @@ namespace ReactChatMac
 	{
 		public object Get(NativeHostAction request)
 		{
-			NativeHost nh = new NativeHost ();
-
-			switch (request.Action) {
-			case "quit":
-				nh.Quit ();
-				break;
-			case "showAbout":
-				nh.ShowAbout ();
-				break;
+			if (string.IsNullOrEmpty(request.Action)) {
+				throw HttpError.NotFound ("Function Not Found");
 			}
+			Type nativeHostType = typeof(NativeHost);
+			object nativeHost = nativeHostType.CreateInstance<NativeHost>();
+			string methodName = request.Action.First ().ToString ().ToUpper () + String.Join ("", request.Action.Skip (1));
+			MethodInfo methodInfo = nativeHostType.GetMethod(methodName);
+			if (methodInfo == null)
+			{
+				throw new HttpError(HttpStatusCode.NotFound,"Function Not Found");
+			}
+			methodInfo.Invoke(nativeHost, null);
 			return null;
 		}
 	}
