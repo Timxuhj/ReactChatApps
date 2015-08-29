@@ -40,28 +40,28 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="ServiceStack.Interfaces">
-      <HintPath>..\..\ReactChatMac\packages\ServiceStack.Interfaces.4.0.42\lib\portable-wp80+sl5+net40+win8+monotouch+monoandroid+xamarin.ios10\ServiceStack.Interfaces.dll</HintPath>
+      <HintPath>$(SolutionDir)\packages\ServiceStack.Interfaces.4.0.42\lib\portable-wp80+sl5+net40+win8+monotouch+monoandroid+xamarin.ios10\ServiceStack.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.Text">
-      <HintPath>..\..\ReactChatMac\packages\ServiceStack.Text.4.0.42\lib\net40\ServiceStack.Text.dll</HintPath>
+      <HintPath>$(SolutionDir)\packages\ServiceStack.Text.4.0.42\lib\net40\ServiceStack.Text.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.Common">
-      <HintPath>..\..\ReactChatMac\packages\ServiceStack.Common.4.0.42\lib\net40\ServiceStack.Common.dll</HintPath>
+      <HintPath>$(SolutionDir)\packages\ServiceStack.Common.4.0.42\lib\net40\ServiceStack.Common.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.Client">
-      <HintPath>..\..\ReactChatMac\packages\ServiceStack.Client.4.0.42\lib\net40\ServiceStack.Client.dll</HintPath>
+      <HintPath>$(SolutionDir)\packages\ServiceStack.Client.4.0.42\lib\net40\ServiceStack.Client.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack">
-      <HintPath>..\..\ReactChatMac\packages\ServiceStack.4.0.42\lib\net40\ServiceStack.dll</HintPath>
+      <HintPath>$(SolutionDir)\packages\ServiceStack.4.0.42\lib\net40\ServiceStack.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.Redis">
-      <HintPath>..\..\ReactChatMac\packages\ServiceStack.Redis.4.0.42\lib\net40\ServiceStack.Redis.dll</HintPath>
+      <HintPath>$(SolutionDir)\packages\ServiceStack.Redis.4.0.42\lib\net40\ServiceStack.Redis.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.OrmLite">
-      <HintPath>..\..\ReactChatMac\packages\ServiceStack.OrmLite.4.0.42\lib\net45\ServiceStack.OrmLite.dll</HintPath>
+      <HintPath>$(SolutionDir)\packages\ServiceStack.OrmLite.4.0.42\lib\net45\ServiceStack.OrmLite.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.Server">
-      <HintPath>..\..\ReactChatMac\packages\ServiceStack.Server.4.0.42\lib\net45\ServiceStack.Server.dll</HintPath>
+      <HintPath>$(SolutionDir)\packages\ServiceStack.Server.4.0.42\lib\net45\ServiceStack.Server.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

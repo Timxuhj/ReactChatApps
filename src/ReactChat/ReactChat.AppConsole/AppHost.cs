@@ -128,8 +128,12 @@ namespace ReactChat.AppConsole
         {
             Type nativeHostType = typeof(NativeHost);
             object nativeHost = nativeHostType.CreateInstance<NativeHost>();
-            MethodInfo theMethod = nativeHostType.GetMethod(request.Action.ToTitleCase());
-            theMethod.Invoke(nativeHost, null);
+            MethodInfo methodInfo = nativeHostType.GetMethod(request.Action.ToTitleCase());
+            if (methodInfo == null)
+            {
+                throw new HttpError(HttpStatusCode.MethodNotAllowed,"MethodNotAllowed");
+            }
+            methodInfo.Invoke(nativeHost, null);
             return null;
         }
     }

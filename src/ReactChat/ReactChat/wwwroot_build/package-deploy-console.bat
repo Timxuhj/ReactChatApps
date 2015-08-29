@@ -30,6 +30,6 @@ IF NOT EXIST apps (
 MD apps
 )
 
-COPY /Y .\staging-console\%OUTPUTNAME% .\apps\%OUTPUTNAME%
+COPY /y .\staging-console\%OUTPUTNAME% .\apps\%OUTPUTNAME%
 
 echo ------------- && echo  deployed to: .\wwwroot_build\apps\%OUTPUTNAME% && echo -------------
