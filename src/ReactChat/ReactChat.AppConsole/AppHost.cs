@@ -126,12 +126,18 @@ namespace ReactChat.AppConsole
     {
         public object Get(NativeHostAction request)
         {
+            if (string.IsNullOrEmpty(request.Action))
+            {
+                throw HttpError.NotFound("Function Not Found");
+            }
             Type nativeHostType = typeof(NativeHost);
             object nativeHost = nativeHostType.CreateInstance<NativeHost>();
-            MethodInfo methodInfo = nativeHostType.GetMethod(request.Action.ToTitleCase());
+            //Upper case first character.
+            string methodName = request.Action.First().ToString().ToUpper() + String.Join("", request.Action.Skip(1));
+            MethodInfo methodInfo = nativeHostType.GetMethod(methodName);
             if (methodInfo == null)
             {
-                throw new HttpError(HttpStatusCode.MethodNotAllowed,"MethodNotAllowed");
+                throw new HttpError(HttpStatusCode.NotFound, "Function Not Found");
             }
             methodInfo.Invoke(nativeHost, null);
             return null;
