@@ -10,7 +10,7 @@ The React Desktop Apps template is setup ready to deploy to multiple target plat
 - Console - Single portable, cross platform executable that utilises the user's default browser.
 - Windows - Native Windows application using an embedded browser.
 
-![WinForms application with loading splash screen](https://github.com/ServiceStack/Assets/raw/master/img/livedemos/react-desktop-apps/react-desktop-apps-winforms.gif)
+![WinForms application with loading splash screen](https://raw.githubusercontent.com/ServiceStack/Assets/369230757361c53f245d8053a2efcdf4975c8995/img/livedemos/react-desktop-apps/react-desktop-apps-winforms.gif)
 
 # Project Structure
 Just like other templates in ServiceStackVS, the **React Desktop Apps** template provides the same recommended structure as well as 3 additional other projects for producing the Console and WinForms applications.
