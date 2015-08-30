@@ -8,6 +8,7 @@ namespace ReactChat.AppWinForms
     public partial class FormMain : Form
     {
         public ChromiumWebBrowser ChromiumBrowser { get; private set; }
+        public Panel SplashPanel { get { return splashPanel; } }
 
         public FormMain()
         {
@@ -46,82 +47,7 @@ namespace ReactChat.AppWinForms
                 Cef.Shutdown();
             };
 
-            ChromiumBrowser.RegisterJsObject("nativeHost", new NativeHost());
-        }
-
-        public void ToggleFormBorder()
-        {
-            this.InvokeOnUiThreadIfRequired(() =>
-            {
-                FormBorderStyle = FormBorderStyle == FormBorderStyle.None
-                    ? FormBorderStyle.Sizable
-                    : FormBorderStyle.None;
-                Left = Top = 0;
-                Width = Screen.PrimaryScreen.WorkingArea.Width;
-                Height = Screen.PrimaryScreen.WorkingArea.Height;
-            });
-        }
-
-        public void DockLeft()
-        {
-            this.InvokeOnUiThreadIfRequired(() =>
-            {
-                MaximizeBox = false;
-                Left = 0;
-                Width = Screen.PrimaryScreen.WorkingArea.Width / 2;
-                Height = Screen.PrimaryScreen.WorkingArea.Height;
-            });
-        }
-
-        public void DockRight()
-        {
-            this.InvokeOnUiThreadIfRequired(() =>
-            {
-                MaximizeBox = false;
-                Left = Screen.PrimaryScreen.WorkingArea.Width / 2;
-                Width = Screen.PrimaryScreen.WorkingArea.Width / 2;
-                Height = Screen.PrimaryScreen.WorkingArea.Height;
-            });
-        }
-
-        public void Quit()
-        {
-            this.InvokeOnUiThreadIfRequired(() =>
-            {
-                Close();
-            });
-        }
-
-        public void Ready()
-        {
-            this.InvokeOnUiThreadIfRequired(() =>
-            {
-                Controls.Remove(splashPanel);
-                //Enable Chrome Dev Tools when debugging WinForms
-#if DEBUG
-                ChromiumBrowser.KeyboardHandler = new KeyboardHandler();
-#endif
-            });
+            ChromiumBrowser.RegisterJsObject("nativeHost", new NativeHost(this));
         }
     }
-
-#if DEBUG
-    public class KeyboardHandler : IKeyboardHandler
-    {
-        public bool OnPreKeyEvent(IWebBrowser browserControl, KeyType type, int windowsKeyCode, int nativeKeyCode,
-            CefEventFlags modifiers, bool isSystemKey, ref bool isKeyboardShortcut)
-        {
-            if (windowsKeyCode == (int)Keys.F12)
-            {
-                Program.Form.ChromiumBrowser.ShowDevTools();
-            }
-            return false;
-        }
-
-        public bool OnKeyEvent(IWebBrowser browserControl, KeyType type, int windowsKeyCode, CefEventFlags modifiers, bool isSystemKey)
-        {
-            return false;
-        }
-    }
-#endif
 }

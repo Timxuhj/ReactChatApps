@@ -1,20 +1,17 @@
-﻿using Funq;
-using ServiceStack;
-using ServiceStack.Razor;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
+using Funq;
 using ReactChat.Resources;
 using ReactChat.ServiceInterface;
+using ServiceStack;
 using ServiceStack.Auth;
+using ServiceStack.Configuration;
+using ServiceStack.Razor;
 using ServiceStack.Redis;
 using ServiceStack.Text;
-using System.IO;
-using System.Reflection;
-using ServiceStack.Configuration;
 
 namespace ReactChat.AppConsole
 {

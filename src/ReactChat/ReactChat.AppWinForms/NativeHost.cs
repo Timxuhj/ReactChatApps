@@ -1,17 +1,21 @@
 ﻿using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
+using CefSharp.WinForms.Internals;
 
 namespace ReactChat.AppWinForms
 {
     public class NativeHost
     {
+        private readonly FormMain formMain;
+
+        public NativeHost(FormMain formMain)
+        {
+            this.formMain = formMain;
+        }
+
         public string Platform
         {
             get { return "winforms"; }
-        }
-
-        public void Quit()
-        {
-            Program.Form.Quit();
         }
 
         public void ShowAbout()
@@ -21,22 +25,77 @@ namespace ReactChat.AppWinForms
 
         public void ToggleFormBorder()
         {
-            Program.Form.ToggleFormBorder();
+            formMain.InvokeOnUiThreadIfRequired(() =>
+            {
+                formMain.FormBorderStyle = formMain.FormBorderStyle == FormBorderStyle.None
+                    ? FormBorderStyle.Sizable
+                    : FormBorderStyle.None;
+                formMain.Left = formMain.Top = 0;
+                formMain.Width = Screen.PrimaryScreen.WorkingArea.Width;
+                formMain.Height = Screen.PrimaryScreen.WorkingArea.Height;
+            });
         }
 
         public void DockLeft()
         {
-            Program.Form.DockLeft();
+            formMain.InvokeOnUiThreadIfRequired(() =>
+            {
+                formMain.MaximizeBox = false;
+                formMain.Left = 0;
+                formMain.Width = Screen.PrimaryScreen.WorkingArea.Width / 2;
+                formMain.Height = Screen.PrimaryScreen.WorkingArea.Height;
+            });
         }
 
         public void DockRight()
         {
-            Program.Form.DockRight();
+            formMain.InvokeOnUiThreadIfRequired(() =>
+            {
+                formMain.MaximizeBox = false;
+                formMain.Left = Screen.PrimaryScreen.WorkingArea.Width / 2;
+                formMain.Width = Screen.PrimaryScreen.WorkingArea.Width / 2;
+                formMain.Height = Screen.PrimaryScreen.WorkingArea.Height;
+            });
+        }
+
+        public void Quit()
+        {
+            formMain.InvokeOnUiThreadIfRequired(() =>
+            {
+                formMain.Close();
+            });
         }
 
         public void Ready()
         {
-            Program.Form.Ready();
+            formMain.InvokeOnUiThreadIfRequired(() =>
+            {
+                formMain.Controls.Remove(formMain.SplashPanel);
+                //Enable Chrome Dev Tools when debugging WinForms
+#if DEBUG
+                formMain.ChromiumBrowser.KeyboardHandler = new KeyboardHandler();
+#endif
+            });
         }
     }
+
+#if DEBUG
+    public class KeyboardHandler : IKeyboardHandler
+    {
+        public bool OnPreKeyEvent(IWebBrowser browserControl, KeyType type, int windowsKeyCode, int nativeKeyCode,
+            CefEventFlags modifiers, bool isSystemKey, ref bool isKeyboardShortcut)
+        {
+            if (windowsKeyCode == (int)Keys.F12)
+            {
+                Program.Form.ChromiumBrowser.ShowDevTools();
+            }
+            return false;
+        }
+
+        public bool OnKeyEvent(IWebBrowser browserControl, KeyType type, int windowsKeyCode, CefEventFlags modifiers, bool isSystemKey)
+        {
+            return false;
+        }
+    }
+#endif
 }
