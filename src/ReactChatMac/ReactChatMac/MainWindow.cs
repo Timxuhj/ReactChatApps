@@ -27,9 +27,6 @@ namespace ReactChatMac
 		// Shared initialization code
 		void Initialize ()
 		{
-			this.WillClose += (sender, e) => {
-				Environment.Exit (0);
-			};
 		}
 
 		#endregion
@@ -39,10 +36,12 @@ namespace ReactChatMac
 			base.AwakeFromNib ();
 			MainClass.MainMenu = NSApplication.SharedApplication.MainMenu;
 			webView.MainFrameUrl = MainClass.HostUrl;
-			webView.Frame = new System.Drawing.RectangleF(0,0,this.Frame.Width,this.Frame.Height);
-			this.DidResize += (sender, e) =>  {
-				webView.Frame = new System.Drawing.RectangleF(0,0,this.Frame.Width,this.Frame.Height);
+			webView.Frame = new System.Drawing.RectangleF (0, 0, this.Frame.Width, this.Frame.Height);
+			this.DidResize += (sender, e) => {
+				webView.Frame = new System.Drawing.RectangleF (0, 0, this.Frame.Width, this.Frame.Height);
 			};
 		}
 	}
 }
+
+

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactChatMac", "ReactChatMac\ReactChatMac.csproj", "{318B96DE-9A31-42A9-8241-84D14472F078}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactChatMac", "ReactChatMac\ReactChatMac.csproj", "{554490C5-4328-4E90-98C6-69C6BFAC89F3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactChat.ServiceModel", "..\ReactChat\ReactChat.ServiceModel\ReactChat.ServiceModel.csproj", "{08BEF328-AB7D-48D3-800D-48ACC75C7914}"
 EndProject
@@ -17,10 +17,10 @@ Global
 		{08BEF328-AB7D-48D3-800D-48ACC75C7914}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08BEF328-AB7D-48D3-800D-48ACC75C7914}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08BEF328-AB7D-48D3-800D-48ACC75C7914}.Release|Any CPU.Build.0 = Release|Any CPU
-		{318B96DE-9A31-42A9-8241-84D14472F078}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{318B96DE-9A31-42A9-8241-84D14472F078}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{318B96DE-9A31-42A9-8241-84D14472F078}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{318B96DE-9A31-42A9-8241-84D14472F078}.Release|Any CPU.Build.0 = Release|Any CPU
+		{554490C5-4328-4E90-98C6-69C6BFAC89F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{554490C5-4328-4E90-98C6-69C6BFAC89F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{554490C5-4328-4E90-98C6-69C6BFAC89F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{554490C5-4328-4E90-98C6-69C6BFAC89F3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{582DFB0F-F84D-4E43-9BCA-2A5A86600B7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{582DFB0F-F84D-4E43-9BCA-2A5A86600B7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{582DFB0F-F84D-4E43-9BCA-2A5A86600B7A}.Release|Any CPU.ActiveCfg = Release|Any CPU

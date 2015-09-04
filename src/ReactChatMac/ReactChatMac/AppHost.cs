@@ -2,8 +2,6 @@
 using ServiceStack;
 using Funq;
 using ServiceStack.Razor;
-using ReactChat.ServiceInterface;
-using ReactChat.Resources;
 using System.Reflection;
 using ServiceStack.Text;
 using System.Net;
@@ -11,6 +9,8 @@ using ServiceStack.Auth;
 using ServiceStack.Redis;
 using MonoMac.AppKit;
 using System.Linq;
+using ReactChat.ServiceInterface;
+using ReactChat.Resources;
 
 namespace ReactChatMac
 {
@@ -31,72 +31,29 @@ namespace ReactChatMac
 		/// This method should initialize any IoC resources utilized by your web service classes.
 		/// </summary>
 		/// <param name="container"></param>
-		public override void Configure(Container container)
+		public override void Configure (Container container)
 		{
 			//Config examples
 			//this.Plugins.Add(new PostmanFeature());
 			//Plugins.Add(new CorsFeature());
 
-			InitializeAppSettings();
+			InitializeAppSettings ();
 
-			Plugins.Add(new RazorFormat
-				{
-					LoadFromAssemblies = { typeof(CefResources).Assembly }
-				});
+			Plugins.Add (new RazorFormat {
+				LoadFromAssemblies = { typeof(CefResources).Assembly },
+			});
 
-			SetConfig(new HostConfig
-				{
-					DebugMode = true,
-					EmbeddedResourceBaseTypes = { typeof(AppHost), typeof(CefResources) }
-				});
-
-			JsConfig.EmitCamelCaseNames = true;
-
-			Plugins.Add(new RazorFormat());
-			Plugins.Add(new ServerEventsFeature());
-
-			MimeTypes.ExtensionMimeTypes["jsv"] = "text/jsv";
-
-			SetConfig(new HostConfig
-				{
-					DebugMode = AppSettings.Get("DebugMode", false),
-					DefaultContentType = MimeTypes.Json,
-					AllowFileExtensions = { "jsx" },
-				});
-
-			CustomErrorHttpHandlers.Remove(HttpStatusCode.Forbidden);
-
-			//Register all Authentication methods you want to enable for this web app.            
-			Plugins.Add(new AuthFeature(
-				() => new AuthUserSession(),
-				new IAuthProvider[] {
-					new TwitterAuthProvider(AppSettings)   //Sign-in with Twitter
-				}));
-
-			container.RegisterAutoWiredAs<MemoryChatHistory, IChatHistory>();
-
-			var redisHost = AppSettings.GetString("RedisHost");
-			if (redisHost != null)
-			{
-				container.Register<IRedisClientsManager>(new RedisManagerPool(redisHost));
-
-				container.Register<IServerEvents>(c =>
-					new RedisServerEvents(c.Resolve<IRedisClientsManager>()));
-				container.Resolve<IServerEvents>().Start();
-			}
-
-			// This route is added using Routes.Add and ServiceController.RegisterService due to
-			// using ILMerge limiting our AppHost : base() call to one assembly.
-			// If two assemblies are used, the base() call searchs the same assembly twice due to the ILMerged result.
-			Routes.Add<NativeHostAction>("/nativehost/{Action}");
-			ServiceController.RegisterService(typeof(NativeHostService));
+			SetConfig (new HostConfig {
+				DebugMode = true,
+				EmbeddedResourceBaseTypes = { typeof(AppHost), typeof(CefResources) },
+			});
 		}
 
 		private void InitializeAppSettings()
 		{
 			var allKeys = AppSettings.GetAllKeys();
 			if (!allKeys.Contains("platformsClassName"))
-				AppSettings.Set("platformsClassName", "console");
+				AppSettings.Set("platformsClassName", "mac");
 			if (!allKeys.Contains("PlatformCss"))
 				AppSettings.Set("PlatformCss", "mac.css");
 			if (!allKeys.Contains("PlatformJs"))
@@ -117,20 +74,19 @@ namespace ReactChatMac
 
 	public class NativeHostService : Service
 	{
-		public object Get(NativeHostAction request)
+		public object Get (NativeHostAction request)
 		{
-			if (string.IsNullOrEmpty(request.Action)) {
+			if (string.IsNullOrEmpty (request.Action)) {
 				throw HttpError.NotFound ("Function Not Found");
 			}
 			Type nativeHostType = typeof(NativeHost);
-			object nativeHost = nativeHostType.CreateInstance<NativeHost>();
+			object nativeHost = nativeHostType.CreateInstance<NativeHost> ();
 			string methodName = request.Action.First ().ToString ().ToUpper () + String.Join ("", request.Action.Skip (1));
-			MethodInfo methodInfo = nativeHostType.GetMethod(methodName);
-			if (methodInfo == null)
-			{
-				throw new HttpError(HttpStatusCode.NotFound,"Function Not Found");
+			MethodInfo methodInfo = nativeHostType.GetMethod (methodName);
+			if (methodInfo == null) {
+				throw new HttpError (HttpStatusCode.NotFound, "Function Not Found");
 			}
-			methodInfo.Invoke(nativeHost, null);
+			methodInfo.Invoke (nativeHost, null);
 			return null;
 		}
 	}
@@ -142,21 +98,21 @@ namespace ReactChatMac
 
 	public class NativeHost
 	{
-		public void ShowAbout()
+		public void ShowAbout ()
 		{
 			//Invoke native about menu item programmatically.
 			MainClass.MainMenu.InvokeOnMainThread (() => {
 				foreach (var item in MainClass.MainMenu.ItemArray()) {
 					if (item.Title == "ReactChatMac") {
-						item.Submenu.PerformActionForItem(0);
+						item.Submenu.PerformActionForItem (0);
 					}
 				}
 			});
 		}
 
-		public void Quit()
+		public void Quit ()
 		{
-			Environment.Exit(0);
+			Environment.Exit (0);
 		}
 	}
 }

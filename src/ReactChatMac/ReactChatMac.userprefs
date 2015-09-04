@@ -1,19 +1,9 @@
 ﻿<Properties StartupItem="ReactChatMac/ReactChatMac.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ReactChatMac/mac.js">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="ReactChatMac/AppHost.cs">
     <Files>
-      <File FileName="ReactChatMac/AppHost.cs" Line="1" Column="1" />
-      <File FileName="../ReactChat/ReactChat.ServiceModel/GetChatHistory.cs" Line="1" Column="1" />
-      <File FileName="../ReactChat/ReactChat.ServiceInterface/IChatHistory.cs" Line="1" Column="1" />
-      <File FileName="ReactChatMac/mac.css" Line="1" Column="1" />
-      <File FileName="ReactChatMac/mac.js" Line="16" Column="28" />
-      <File FileName="ReactChatMac/MainWindowController.cs" Line="1" Column="1" />
+      <File FileName="ReactChatMac/AppHost.cs" Line="40" Column="29" />
       <File FileName="ReactChatMac/AppDelegate.cs" Line="1" Column="1" />
-      <File FileName="ReactChatMac/MainWindow.cs" Line="1" Column="1" />
-      <File FileName="ReactChatMac/About.cs" Line="1" Column="1" />
-      <File FileName="ReactChatMac/AboutController.cs" Line="1" Column="1" />
-      <File FileName="ReactChatMac/Main.cs" Line="1" Column="1" />
-      <File FileName="ReactChatMac/AppDelegate.designer.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

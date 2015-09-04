@@ -4,12 +4,11 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectTypeGuids>{42C0BBD9-55CE-4FC1-8D90-A7348ABAFB23};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <ProjectGuid>{318B96DE-9A31-42A9-8241-84D14472F078}</ProjectGuid>
+    <ProjectGuid>{554490C5-4328-4E90-98C6-69C6BFAC89F3}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>ReactChatMac</RootNamespace>
     <MonoMacResourcePrefix>Resources</MonoMacResourcePrefix>
     <AssemblyName>ReactChatMac</AssemblyName>
-    <ApplicationIcon>..\..\ReactChat\ReactChat.AppConsole\logo-32sq.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,9 +23,9 @@
     <UseSGen>false</UseSGen>
     <IncludeMonoRuntime>false</IncludeMonoRuntime>
     <EnablePackageSigning>false</EnablePackageSigning>
+    <CodeSigningKey>Mac Developer</CodeSigningKey>
     <EnableCodeSigning>false</EnableCodeSigning>
     <CreatePackage>false</CreatePackage>
-    <NoStdLib>true</NoStdLib>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -35,24 +34,22 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
+    <LinkMode>SdkOnly</LinkMode>
     <UseRefCounting>false</UseRefCounting>
     <UseSGen>false</UseSGen>
-    <IncludeMonoRuntime>false</IncludeMonoRuntime>
-    <CreatePackage>false</CreatePackage>
-    <EnableCodeSigning>false</EnableCodeSigning>
+    <IncludeMonoRuntime>true</IncludeMonoRuntime>
+    <CreatePackage>true</CreatePackage>
+    <CodeSigningKey>Developer ID Application</CodeSigningKey>
+    <EnableCodeSigning>true</EnableCodeSigning>
     <EnablePackageSigning>false</EnablePackageSigning>
-    <NoStdLib>true</NoStdLib>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
-    <Reference Include="ReactChat.Resources">
-      <HintPath>..\..\lib\ReactChat.Resources.dll</HintPath>
-    </Reference>
+    <Reference Include="MonoMac, Version=0.0.0.0, Culture=neutral" />
     <Reference Include="ServiceStack.Interfaces">
       <HintPath>..\packages\ServiceStack.Interfaces.4.0.42\lib\portable-wp80+sl5+net40+win8+monotouch+monoandroid+xamarin.ios10\ServiceStack.Interfaces.dll</HintPath>
     </Reference>
@@ -77,12 +74,8 @@
     <Reference Include="System.Web.Razor">
       <HintPath>..\packages\ServiceStack.Razor.4.0.42\lib\net45\System.Web.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="XamMac" />
-    <Reference Include="ServiceStack.Redis">
-      <HintPath>..\packages\ServiceStack.Redis.4.0.42\lib\net40\ServiceStack.Redis.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceStack.Server">
-      <HintPath>..\packages\ServiceStack.Server.4.0.42\lib\net45\ServiceStack.Server.dll</HintPath>
+    <Reference Include="ReactChat.Resources">
+      <HintPath>..\..\lib\ReactChat.Resources.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -93,11 +86,6 @@
     <Compile Include="MainWindow.cs" />
     <Compile Include="MainWindow.designer.cs" />
     <Compile Include="MainWindowController.cs" />
-    <Compile Include="About.cs" />
-    <Compile Include="AboutController.cs" />
-    <Compile Include="About.designer.cs">
-      <DependentUpon>About.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -106,7 +94,10 @@
   <ItemGroup>
     <InterfaceDefinition Include="MainMenu.xib" />
     <InterfaceDefinition Include="MainWindow.xib" />
-    <InterfaceDefinition Include="About.xib" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="mac.css" />
+    <EmbeddedResource Include="mac.js" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -118,12 +109,5 @@
       <Project>{08BEF328-AB7D-48D3-800D-48ACC75C7914}</Project>
       <Name>ReactChat.ServiceModel</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="mac.css" />
-    <EmbeddedResource Include="mac.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\logo-64.icns" />
   </ItemGroup>
 </Project>
