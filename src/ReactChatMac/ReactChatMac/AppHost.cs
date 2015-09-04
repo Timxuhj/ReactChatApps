@@ -47,6 +47,9 @@ namespace ReactChatMac
 				DebugMode = true,
 				EmbeddedResourceBaseTypes = { typeof(AppHost), typeof(CefResources) },
 			});
+
+			Routes.Add<NativeHostAction>("/nativehost/{Action}");
+			ServiceController.RegisterService(typeof(NativeHostService));
 		}
 
 		private void InitializeAppSettings()
