@@ -4,11 +4,13 @@ A chat demo of building a React application to target multiple platforms using t
 
 ![React Desktop Apps](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/gap/react-desktop-splash.png)
 
-The React Desktop Apps template is setup ready to deploy to multiple target platforms, just by running a grunt task after creating our solution, we have 3 working applications including:
+The React Desktop Apps template is setup ready to deploy to multiple target platforms, just by running a grunt task after creating our solution, we have 3 working applications from Visual Studio including:
 
-- Web - Ready to deploy.
-- Console - Single portable, cross platform executable that utilises the user's default browser.
-- Windows - Native Windows application using an embedded browser.
+- **Web** - Ready to deploy.
+- **Console** - Single portable, cross platform executable that utilises the user's default browser.
+- **Windows** - Native Windows application using an embedded browser.
+
+Additionally, an **OSX** project using Xamarin.Mac is generated preconfigured and ready to run! Web resources and services are shared between the Xamarin.Mac and Visual Studio solutions maximizing code reuse and having the ability to hook into native functionality in OSX using **Xamarin.Mac**.
 
 ![WinForms application with loading splash screen](https://github.com/ServiceStack/Assets/raw/master/img/livedemos/react-desktop-apps/react-desktop-apps-winforms.gif)
 
@@ -116,15 +118,14 @@ public FormMain()
 {
     InitializeComponent();
     VerticalScroll.Visible = false;
-    var chromiumBrowser = new ChromiumWebBrowser(Program.HostUrl)
+    ChromiumBrowser = new ChromiumWebBrowser(Program.HostUrl)
     {
         Dock = DockStyle.Fill
     };
-    Controls.Add(chromiumBrowser);
+    Controls.Add(ChromiumBrowser);
 
     Load += (sender, args) =>
     {
-        FormBorderStyle = FormBorderStyle.None;
         Left = Top = 0;
         Width = Screen.PrimaryScreen.WorkingArea.Width;
         Height = Screen.PrimaryScreen.WorkingArea.Height;
@@ -141,55 +142,78 @@ public FormMain()
         Cef.Shutdown();
     };
 
-    chromiumBrowser.RegisterJsObject("aboutDialog", new AboutDialogJsObject());
-    chromiumBrowser.RegisterJsObject("winForm",new WinFormsApp(this));
+    ChromiumBrowser.RegisterJsObject("nativeHost", new NativeHost(this));
 }
 ```
 
 CefSharp also enabled integration between JavaScript and native calls via exposing JavaScript objects that are registered .NET classes. In ReactChat and the ServiceStackVS template, we wire up 2 objects to show how this can be leveraged. One to simply show a message box when "About" is clicked and the other to close the application. The .NET classes are POCOs that have matching function names with the JavaScript object registered. The default setting is to camel case the JS object following the common naming conventions when using JS.
 
 ```csharp
-public class AboutDialogJsObject
+public class NativeHost
 {
-    public void Show()
+    private readonly FormMain formMain;
+
+    public NativeHost(FormMain formMain)
+    {
+        this.formMain = formMain;
+        //Enable Chrome Dev Tools when debugging WinForms
+#if DEBUG
+        formMain.ChromiumBrowser.KeyboardHandler = new KeyboardHandler();
+#endif
+    }
+
+    public string Platform
+    {
+        get { return "winforms"; }
+    }
+
+    public void ShowAbout()
     {
         MessageBox.Show(@"ServiceStack with CefSharp + ReactJS", @"ReactChat.AppWinForms", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
-}
 
-public class WinFormsApp
-{
-    public FormMain Form { get; set; }
-
-    public WinFormsApp(FormMain form)
+    public void ToggleFormBorder()
     {
-        Form = form;
-    }
-
-    public void Close()
-    {
-        Form.InvokeOnUiThreadIfRequired(() =>
+        formMain.InvokeOnUiThreadIfRequired(() =>
         {
-            Form.Close();  
+            formMain.FormBorderStyle = formMain.FormBorderStyle == FormBorderStyle.None
+                ? FormBorderStyle.Sizable
+                : FormBorderStyle.None;
+            formMain.Left = formMain.Top = 0;
+            formMain.Width = Screen.PrimaryScreen.WorkingArea.Width;
+            formMain.Height = Screen.PrimaryScreen.WorkingArea.Height;
         });
     }
-}
+...
 ```
 
-In our ReactChat web application, we create an object as a placeholder or web equivalent so that function calls will work in both a web app and when using CefSharp to enable these native hooks.
+The `NativeHost` class is exposed by CefSharp as a JavaScript object with functions and properties. The `NativeHost` object is common on all platforms, but the implementation is different to get access to native functionality. CefSharp provides the `nativeHost` JavaScript object, but for other platforms, we need to provide the `nativeHost` JavaScript object via Razor. We use Razor to inject a `PlatformCss` and `PlatformJs` so we can introduce native hooks and presentation into native applications and hide them from our web app.
+``` html
+    @if (AppSettings.Exists("PlatformCss"))
+    {
+        <link rel="stylesheet" href="@(AppSettings.GetString("PlatformCss") + "?disableCache=" + DateTime.UtcNow.Ticks)"/>
+    }
+    @if (AppSettings.Exists("PlatformJs"))
+    {
+        <script src="@(AppSettings.GetString("PlatformJs") + "?disableCache=" + DateTime.UtcNow.Ticks)"></script>
+    }
+``` 
+
+For example, for the OSX platform, we include a `mac.js` embedded resource that provides the same interfaces, but we use a ServiceStack service to fire functions on the native platform.
 
 ``` javascript
-    //Show about function for local dev, hooks into winforms when depoyed.
-    window.aboutDialog = window.aboutDialog || {
-        show: function() {
-            alert("ReactChat - ServiceStack + ReactJS");
-        }
-    };
-    window.winForm = window.winForm || {
-        close: function() {
-            window.close();
-        }
-    }
+window.nativeHost = {
+    quit: function () {
+        $.get('/nativehost/quit');
+    },
+    showAbout: function () {
+    	$.get('/nativehost/showAbout');
+    },
+    ready: function () {
+        //
+    },
+    platform: 'mac'
+}
 ```
 
 If CefSharp is being used, these objects are registered before page is rendered and the native hooks will be used instead.

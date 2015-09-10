@@ -8,6 +8,7 @@ module.exports = function (grunt) {
     var gulp = require('gulp');
     // include plug-ins
     var del = require('del');
+    var header = require('gulp-header');
     var uglify = require('gulp-uglify');
     var newer = require('gulp-newer');
     var useref = require('gulp-useref');
@@ -182,14 +183,6 @@ module.exports = function (grunt) {
                     '!wwwroot/appsettings.txt' //Don't delete deploy settings
                 ], done);
             },
-            'wwwroot-copy-partials': function () {
-                var partialsResourceDest = resourcesRoot + 'partials';
-                var partialsWebRootDest = webRoot + 'partials';
-                return gulp.src('partials/**/*.html')
-                    .pipe(newer(partialsResourceDest))
-                    .pipe(gulp.dest(partialsResourceDest))
-                    .pipe(gulp.dest(partialsWebRootDest));
-            },
             'wwwroot-copy-fonts': function () {
                 return gulp.src('./bower_components/bootstrap/dist/fonts/*.*')
                     .pipe(gulp.dest(resourcesRoot + 'lib/fonts/'))
@@ -200,7 +193,7 @@ module.exports = function (grunt) {
                     .pipe(gulp.dest(resourcesRoot + 'img/'))
                     .pipe(gulp.dest(webRoot + 'img/'));
             },
-            'wwwroot-copy-webjs': function() {
+            'wwwroot-copy-webjs': function () {
                 return gulp.src('./js/web.js')
                    .pipe(gulp.dest(webRoot + 'js/'));
             },
@@ -216,6 +209,7 @@ module.exports = function (grunt) {
                     .pipe(gulpif('*.css', minifyCss()))
                     .pipe(assets.restore())
                     .pipe(useref())
+                    .pipe(gulpif('*.cshtml', header("@*Auto generated file on " + (new Date().toLocaleString()) + ". See ReactChat project grunt file*@\r\n")))
                     .pipe(gulp.dest(resourcesRoot))
                     .pipe(gulp.dest(webRoot));
 
@@ -226,7 +220,7 @@ module.exports = function (grunt) {
                     .pipe(gulp.dest(webRoot));
 
             },
-            'copy-resources-lib': function() {
+            'copy-resources-lib': function () {
                 return gulp.src('../ReactChat.Resources/bin/Release/ReactChat.Resources.dll')
                     .pipe(newer(resourcesLib))
                     .pipe(gulp.dest(resourcesLib));
@@ -248,7 +242,6 @@ module.exports = function (grunt) {
         'gulp:wwwroot-copy-webconfig',
         'gulp:wwwroot-copy-asax',
         'gulp:wwwroot-copy-deploy-files',
-        'gulp:wwwroot-copy-partials',
         'gulp:wwwroot-copy-fonts',
         'gulp:wwwroot-copy-images',
         'gulp:wwwroot-copy-webjs',
@@ -264,12 +257,14 @@ module.exports = function (grunt) {
         '01-bundle-all',
         'exec:package-console'
     ]);
+
     grunt.registerTask('03-package-winforms', [
         'nugetrestore:restore-winforms',
         'msbuild:release-winforms',
         '01-bundle-all',
         'exec:package-winforms'
     ]);
+
     grunt.registerTask('04-deploy-webapp', [
         'nugetrestore:restore-webapp',
         'msbuild:release-webapp',

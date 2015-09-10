@@ -32,15 +32,7 @@ namespace ReactChat.AppWinForms
                 //Make closing feel more responsive.
                 Visible = false;
             };
-#if DEBUG
-            ChromiumBrowser.KeyDown += (sender, args) =>
-            {
-                if (args.KeyCode == Keys.F12)
-                {
-                    ChromiumBrowser.ShowDevTools();
-                }
-            };
-#endif
+
 
             FormClosed += (sender, args) =>
             {

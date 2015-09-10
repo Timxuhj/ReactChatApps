@@ -11,6 +11,10 @@ namespace ReactChat.AppWinForms
         public NativeHost(FormMain formMain)
         {
             this.formMain = formMain;
+            //Enable Chrome Dev Tools when debugging WinForms
+#if DEBUG
+            formMain.ChromiumBrowser.KeyboardHandler = new KeyboardHandler();
+#endif
         }
 
         public string Platform
@@ -71,10 +75,6 @@ namespace ReactChat.AppWinForms
             formMain.InvokeOnUiThreadIfRequired(() =>
             {
                 formMain.Controls.Remove(formMain.SplashPanel);
-                //Enable Chrome Dev Tools when debugging WinForms
-#if DEBUG
-                formMain.ChromiumBrowser.KeyboardHandler = new KeyboardHandler();
-#endif
             });
         }
     }
