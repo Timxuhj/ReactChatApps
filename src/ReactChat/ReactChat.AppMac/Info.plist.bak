@@ -16,7 +16,11 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+<<<<<<< HEAD:src/ReactChat/ReactChat.AppMac/Info.plist
 	<key>CFBundleIconFile</key>
 	<string>logo</string>
+=======
+>>>>>>> origin/master:src/ReactChatMac/ReactChatMac/Info.plist
 </dict>
 </plist>
+

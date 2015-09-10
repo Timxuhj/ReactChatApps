@@ -4,7 +4,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectTypeGuids>{42C0BBD9-55CE-4FC1-8D90-A7348ABAFB23};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <ProjectGuid>{318B96DE-9A31-42A9-8241-84D14472F078}</ProjectGuid>
+    <ProjectGuid>{554490C5-4328-4E90-98C6-69C6BFAC89F3}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>ReactChat.AppMac</RootNamespace>
     <MonoMacResourcePrefix>Resources</MonoMacResourcePrefix>
@@ -49,6 +49,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
+	<Reference Include="MonoMac, Version=0.0.0.0, Culture=neutral" />
     <Reference Include="ReactChat.Resources">
       <HintPath>..\..\lib\ReactChat.Resources.dll</HintPath>
     </Reference>
@@ -101,22 +102,19 @@
     <InterfaceDefinition Include="MainMenu.xib" />
     <InterfaceDefinition Include="MainWindow.xib" />
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <ProjectReference Include="..\ReactChat\ReactChat.ServiceInterface\ReactChat.ServiceInterface.csproj">
-      <Project>{582DFB0F-F84D-4E43-9BCA-2A5A86600B7A}</Project>
-      <Name>ReactChat.ServiceInterface</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ReactChat\ReactChat.ServiceModel\ReactChat.ServiceModel.csproj">
-      <Project>{08BEF328-AB7D-48D3-800D-48ACC75C7914}</Project>
-      <Name>ReactChat.ServiceModel</Name>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="mac.css" />
     <EmbeddedResource Include="mac.js" />
   </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <BundleResource Include="Resources\logo.icns" />
+    <ProjectReference Include="..\..\ReactChat\ReactChat.ServiceInterface\ReactChat.ServiceInterface.csproj">
+      <Project>{582DFB0F-F84D-4E43-9BCA-2A5A86600B7A}</Project>
+      <Name>ReactChat.ServiceInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ReactChat\ReactChat.ServiceModel\ReactChat.ServiceModel.csproj">
+      <Project>{08BEF328-AB7D-48D3-800D-48ACC75C7914}</Project>
+      <Name>ReactChat.ServiceModel</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

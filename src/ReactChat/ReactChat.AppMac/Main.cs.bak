@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
@@ -23,3 +23,7 @@ namespace ReactChat.AppMac
 	}
 }
 
+<<<<<<< HEAD:src/ReactChat/ReactChat.AppMac/Main.cs
+=======
+
+>>>>>>> origin/master:src/ReactChatMac/ReactChatMac/Main.cs
