@@ -12,7 +12,7 @@ The React Desktop Apps template is setup ready to deploy to multiple target plat
 
 Additionally, an **OSX** project using Xamarin.Mac is generated preconfigured and ready to run! Web resources and services are shared between the Xamarin.Mac and Visual Studio solutions maximizing code reuse and having the ability to hook into native functionality in OSX using **Xamarin.Mac**.
 
-![WinForms application with loading splash screen](https://github.com/ServiceStack/Assets/raw/master/img/livedemos/react-desktop-apps/react-desktop-apps-winforms.gif)
+![WinForms application with loading splash screen](https://github.com/ServiceStack/Assets/raw/master/img/livedemos/react-desktop-apps/redis-chat-app.gif)
 
 # Project Structure
 Just like other templates in ServiceStackVS, the **React Desktop Apps** template provides the same recommended structure as well as 3 additional other projects for producing the Console and WinForms applications.
