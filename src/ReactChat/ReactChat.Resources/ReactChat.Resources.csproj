@@ -100,7 +100,7 @@
     <EmbeddedResource Include="lib\js\react.min.js" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="default.cshtml" />
+    <EmbeddedResource Include="default.cshtml" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
