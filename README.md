@@ -149,6 +149,7 @@ public FormMain()
 CefSharp also enabled integration between JavaScript and native calls via exposing JavaScript objects that are registered .NET classes. In ReactChat and the ServiceStackVS template, we wire up 2 objects to show how this can be leveraged. One to simply show a message box when "About" is clicked and the other to close the application. The .NET classes are POCOs that have matching function names with the JavaScript object registered. The default setting is to camel case the JS object following the common naming conventions when using JS.
 
 ```csharp
+
 public class NativeHost
 {
     private readonly FormMain formMain;
@@ -253,14 +254,10 @@ Just like the AngularJS and React App template, we stage our application ready f
 The bundling searches for assets in any `*.cshtml` file and follows build comments to minify and replace references. This enables simple use of debug JS files whilst still having control how our resources minify.
 
 ```html
-<!-- build:js lib/js/react.min.js -->
+<!-- build:js lib/js/lib.min.js -->
+<script src="bower_components/jquery/dist/jquery.js"></script>
 <script src="bower_components/react/react.js"></script>
-<!-- endbuild -->
-<!-- build:js lib/js/reflux.min.js -->
 <script src="bower_components/reflux/dist/reflux.js"></script>
-<!-- endbuild -->
-<!-- build:remove -->
-<script src="bower_components/react/JSXTransformer.js"></script>
 <!-- endbuild -->
 
 <!-- build:js js/app.jsx.js -->
@@ -286,11 +283,11 @@ When creating new JS files for your application, they should be added in the `bu
 This task also performs `01-build-all` as well restoring NuGet packages and building the **AppConsole** project. Once the project resources are ready, it calls the `package-deploy-console.bat` batch file which, using **ILMerge**, produces the stand alone exe of the console application and copies it to `apps` output directory.
 
 ``` bat
-IF EXIST staging-console (
-RMDIR /S /Q .\staging-console
-)
+SET STAGING=staging-console
 
-MD staging-console
+...
+
+MD %STAGING%
 
 SET TOOLS=.\tools
 SET OUTPUTNAME=ReactChat.Console.exe
@@ -311,49 +308,41 @@ SET INPUT=%INPUT% %RELEASE%\ServiceStack.Redis.dll
 SET INPUT=%INPUT% %RELEASE%\ServiceStack.Razor.dll
 SET INPUT=%INPUT% %RELEASE%\System.Web.Razor.dll
 
-%ILMERGE% /target:exe /targetplatform:v4,"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5" /out:staging-console\%OUTPUTNAME% /ndebug %INPUT% 
+%ILMERGE% /target:exe /targetplatform:v4,"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5" /out:%STAGING%\%OUTPUTNAME% /ndebug %INPUT% 
 
 IF NOT EXIST apps (
 MD apps
 )
 
-COPY /Y .\staging-console\%OUTPUTNAME% .\apps\ReactChat-console.exe
+COPY /Y .\%STAGING%\%OUTPUTNAME% .\apps\
 ```
 
 #### 03-package-winforms
 This task also performs `01-build-all` as well restoring NuGet packages and building the **AppWinForms** project. Once the project resources are ready, it calls `package-deploy-winforms.bat` which uses 7zip SFX to zip and compresses the CefSharp.WinForms ReactChat.AppWinForms application in a self executing zip package.
 
 ``` batch
-IF EXIST staging-winforms\ (
-RMDIR /S /Q .\staging-winforms
-)
+SET STAGING=staging-winforms
 
-MKDIR staging-winforms
+...
+
+MD %STAGING%
 
 SET TOOLS=.\tools
+SET STAGINGZIP=ReactChat-winforms.7z
+SET OUTPUTNAME=ReactChat-winforms.exe
 SET RELEASE=..\..\ReactChat.AppWinForms\bin\x86\Release
-COPY %RELEASE%\ReactChat.AppWinForms.exe .\staging-winforms
-COPY %RELEASE%\ReactChat.AppWinForms.exe.config .\staging-winforms
-COPY %RELEASE%\CefSharp.BrowserSubprocess.exe .\staging-winforms
-ROBOCOPY "%RELEASE%" ".\staging-winforms" *.dll *.pak *.dat /E
+COPY %RELEASE%\ReactChat.AppWinForms.exe .\%STAGING%
+COPY %RELEASE%\ReactChat.AppWinForms.exe.config .\%STAGING%
+COPY %RELEASE%\CefSharp.BrowserSubprocess.exe .\%STAGING%
+ROBOCOPY "%RELEASE%" ".\%STAGING%" *.dll *.pak *.dat /E
 
-IF NOT EXIST apps (
-mkdir apps
-)
+...
 
-IF EXIST ReactChat-winforms.7z (
-del ReactChat-winforms.7z
-)
+cd tools && 7za a ..\%STAGINGZIP% ..\%STAGING%\* && cd..
+COPY /b .\tools\7zsd_All.sfx + config-winforms.txt + %STAGINGZIP% .\apps\%OUTPUTNAME%
 
-IF EXIST ReactChat-winforms.exe (
-del ReactChat-winforms.exe
-)
-
-cd tools && 7za a ..\ReactChat-winforms.7z ..\staging-winforms\* && cd..
-copy /b .\tools\7zsd_All.sfx + config-winforms.txt + ReactChat-winforms.7z .\apps\ReactChat-winforms.exe
 ```
-
-If additional files not included in the `ROBOCOPY`/`COPY` commands below are needed in the application, they need to be included in the `ROBOCOPY` command in `package-deploy-winforms.bat`. By default, all the files required for the Chromium Embedded Framework are included in the template script.
+By default, all the files required for the Chromium Embedded Framework are included in the template script.
 
 ```
 COPY %RELEASE%\ReactChat.AppWinForms.exe .\staging-winforms
@@ -371,7 +360,7 @@ GUIMode="2"
 ```
 Configuration options for 7z SFX can be found in the [7z SFX documentation](http://7zsfx.info/en/configinfo.html).
 
-The ReactChatApp solution is using a modified version of the 7zsd_All.sfx file which generates the self executable with the custom ServiceStack `.ico` file. More information on how to change this to a custom icon can be found on the [7zsfx.info](http://7zsfx.info/en/icon.html) site.
+The ReactChatApp solution is using a modified version of the `7zsd_All.sfx` file which generates the self executable with the custom ServiceStack `.ico` file. More information on how to change this to a custom icon can be found on the [7zsfx.info](http://7zsfx.info/en/icon.html) site.
 
 #### 04-deploy-webapp
 
