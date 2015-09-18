@@ -1,5 +1,5 @@
 {
-    "name": "React_Chat_Gap",
+    "name": "ReactChat",
     "version": "0.0.1",
     "authors": [
         ""
@@ -8,8 +8,8 @@
     "private": true,
     "dependencies": {
         "react": "~0.12.1",
-		"jquery": "~2.1.1",
-		"reflux": "~0.2.0"
+		    "jquery": "~2.1.1",
+		    "reflux": "~0.2.0"
     },
     "ignore": [
         "**/.*",

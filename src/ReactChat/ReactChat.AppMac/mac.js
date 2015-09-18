@@ -19,4 +19,3 @@ window.nativeHost = {
     },
     platform: 'mac'
 }
-

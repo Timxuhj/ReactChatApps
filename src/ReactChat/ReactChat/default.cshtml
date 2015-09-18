@@ -5,7 +5,7 @@
     var platformsClassName = AppSettings.Exists("PlatformClassName") ? AppSettings.GetString("PlatformClassName") : "web";
 }
 <!DOCTYPE html>
-<html @platformsClassName>
+<html class="@platformsClassName">
 <head lang="en">
     <meta charset="UTF-8">
     <!--build:css css/app.min.css-->
@@ -13,60 +13,64 @@
     <!-- endbuild -->
     @if (AppSettings.Exists("PlatformCss"))
     {
-        <link rel="stylesheet" href="@(AppSettings.GetString("PlatformCss") + "?disableCache=" + DateTime.UtcNow.Ticks)"/>
+        <link rel="stylesheet" href="@(AppSettings.GetString("PlatformCss") + "?disableCache=" + DateTime.UtcNow.Ticks)" />
     }
-    <!-- build:js lib/js/jquery.min.js -->
+    <!-- build:js lib/js/lib.min.js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
-    <!-- endbuild -->
-    <!-- build:js lib/js/react.min.js -->
     <script src="bower_components/react/react.js"></script>
-    <!-- endbuild -->
-    <!-- build:js lib/js/reflux.min.js -->
     <script src="bower_components/reflux/dist/reflux.js"></script>
     <!-- endbuild -->
-    <!-- build:remove -->
-    <script src="bower_components/react/JSXTransformer.js"></script>
+
+    <script src="/js/ss-utils.js"></script><!-- in ServiceStack.dll -->
+    <!-- build:js js/app.min.js -->
+    <script src="/js/utils.js"></script>
     <!-- endbuild -->
+    @if (AppSettings.Exists("PlatformJs"))
+    {
+        <script src="@(AppSettings.GetString("PlatformJs") + "?disableCache=" + DateTime.UtcNow.Ticks)"></script>
+    }
 
     @if (AppSettings.Exists("PlatformJs"))
     {
         <script src="@(AppSettings.GetString("PlatformJs") + "?disableCache=" + DateTime.UtcNow.Ticks)"></script>
     }
 
-    <script src="js/ss-utils.js"></script>
     <title>React Template</title>
     <link href="/img/favicon.png" rel="icon">
 
     <script type="text/javascript">
-    var channels = "@channels".split(',');
-    var AppData = {
-        channels: channels,
-        selectedChannel: channels[channels.length - 1],
-        isAuthenticated: @IsAuthenticated.ToString().ToLower(),
-        eventStreamUrl: '/event-stream?channels=@channels&t=' + new Date().getTime(),
-        channelSubscribersUrl: '/event-subscribers?channels=@channels',
-        chatHistoryUrl: '/chathistory?channels=@channels'
-    };
+        var channels = "@channels".split(',');
+        var AppData = {
+            channels: channels,
+            selectedChannel: channels[channels.length - 1],
+            isAuthenticated: @IsAuthenticated.ToString().ToLower(),
+            eventStreamUrl: '/event-stream?channels=@channels&t=' + new Date().getTime(),
+            channelSubscribersUrl: '/event-subscribers?channels=@channels',
+            chatHistoryUrl: '/chathistory?channels=@channels'
+        };
     </script>
 
 </head>
-    <body>
-        <div id="app"></div>
+<body>
+    <div id="app"></div>
 
-        <!-- build:js js/app.jsx.js -->
-        <script type="text/javascript" src="js/components/Actions.js"></script>
-        <script type="text/jsx" src="js/components/User.jsx">
-        </script>
-        <script type="text/jsx" src="js/components/Header.jsx">
-        </script>
-        <script type="text/jsx" src="js/components/Sidebar.jsx">
-        </script>
-        <script type="text/jsx" src="js/components/ChatLog.jsx">
-        </script>
-        <script type="text/jsx" src="js/components/Footer.jsx">
-        </script>
-        <script type="text/jsx" src="js/components/ChatApp.jsx">
-        </script>
-        <!-- endbuild -->
-    </body>
+    <!-- build:js js/app.jsx.js -->
+    <script type="text/javascript" src="js/components/Actions.js"></script>
+    <script type="text/jsx" src="js/components/User.jsx">
+    </script>
+    <script type="text/jsx" src="js/components/Header.jsx">
+    </script>
+    <script type="text/jsx" src="js/components/Sidebar.jsx">
+    </script>
+    <script type="text/jsx" src="js/components/ChatLog.jsx">
+    </script>
+    <script type="text/jsx" src="js/components/Footer.jsx">
+    </script>
+    <script type="text/jsx" src="js/components/ChatApp.jsx">
+    </script>
+    <!-- endbuild -->
+    <!-- build:remove -->
+    <script src="bower_components/react/JSXTransformer.js"></script>
+    <!-- endbuild -->
+</body>
 </html>

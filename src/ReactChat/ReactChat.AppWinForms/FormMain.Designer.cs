@@ -34,24 +34,26 @@
             // 
             // splashPanel
             // 
-            this.splashPanel.BackgroundImage = global::ReactChat.AppWinForms.Properties.Resources.fulllogo;
+            this.splashPanel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("splashPanel.BackgroundImage")));
             this.splashPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.splashPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splashPanel.Location = new System.Drawing.Point(0, 0);
+            this.splashPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.splashPanel.Name = "splashPanel";
-            this.splashPanel.Size = new System.Drawing.Size(555, 369);
+            this.splashPanel.Size = new System.Drawing.Size(740, 454);
             this.splashPanel.TabIndex = 0;
             // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ClientSize = new System.Drawing.Size(555, 369);
+            this.ClientSize = new System.Drawing.Size(740, 454);
             this.Controls.Add(this.splashPanel);
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "FormMain";
             this.Text = "ReactChat";
             this.ResumeLayout(false);

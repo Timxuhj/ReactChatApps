@@ -7,9 +7,6 @@ using ServiceStack.Auth;
 using ServiceStack.Razor;
 using ServiceStack.Redis;
 using ServiceStack.Text;
-using System.Windows.Forms;
-using CefSharp;
-using CefSharp.WinForms.Internals;
 
 namespace ReactChat.AppWinForms
 {

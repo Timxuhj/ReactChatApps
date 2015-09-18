@@ -106,11 +106,11 @@ namespace ReactChat.AppConsole
             if (!allKeys.Contains("PlatformJs"))
                 AppSettings.Set("PlatformJs", "console.js");
 
-            if(!allKeys.Contains("oauth.RedirectUrl"))
+            if (!allKeys.Contains("oauth.RedirectUrl"))
                 AppSettings.Set("oauth.RedirectUrl", Program.HostUrl);
-            if(!allKeys.Contains("oauth.CallbackUrl"))
+            if (!allKeys.Contains("oauth.CallbackUrl"))
                 AppSettings.Set("oauth.CallbackUrl", Program.HostUrl + "auth/{0}");
-            if(!allKeys.Contains("oauth.twitter.ConsumerKey"))
+            if (!allKeys.Contains("oauth.twitter.ConsumerKey"))
                 AppSettings.Set("oauth.twitter.ConsumerKey", "6APZQFxeVVLobXT2wRZArerg0");
             if (!allKeys.Contains("oauth.twitter.ConsumerSecret"))
                 AppSettings.Set("oauth.twitter.ConsumerSecret", "bKwpp31AS90MUBw1s1w0pIIdYdVEdPLa1VvobUr7IXR762hdUn");

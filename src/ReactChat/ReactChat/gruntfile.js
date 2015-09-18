@@ -1,8 +1,30 @@
-/* global module, require */
+/// <binding BeforeBuild='01-bundle-all' />
+var WEB = 'web';
+var NATIVE = 'native';
 
+var COPY_FILES = [
+    { src: './bin/**/*', dest: 'bin/', host: WEB },
+    { src: './img/**/*', dest: 'img/' },
+    { src: './App_Data/**/*', dest: 'App_Data/', host: WEB },
+    { src: './Global.asax', host: WEB },
+    { src: './bower_components/bootstrap/dist/fonts/*.*', dest: 'lib/fonts/' },
+    { src: './js/web.js', dest: 'js/', host: WEB },
+    { src: './wwwroot_build/deploy/*.*', host: WEB },
+    {
+        src: './web.config',
+        host: [WEB],
+        afterReplace: [{
+            from: '<compilation debug="true" targetFramework="4.5">',
+            to: '<compilation targetFramework="4.5">'
+        }]
+    }
+];
+
+/* global module, require */
 module.exports = function (grunt) {
     "use strict";
 
+    var fs = require('fs');
     var path = require('path');
     // include gulp
     var gulp = require('gulp');
@@ -20,8 +42,37 @@ module.exports = function (grunt) {
     var webRoot = 'wwwroot/';
     var resourcesLib = '../../lib/';
 
+    var configFile = 'config.json';
+    var configDir = './wwwroot_build/publish/';
+    var configPath = configDir + configFile;
+    var appSettingsFile = 'appsettings.txt';
+    var appSettingsDir = './wwwroot_build/deploy/';
+    var appSettingsPath = appSettingsDir + appSettingsFile;
+
+    function createConfigsIfMissing() {
+        if (!fs.existsSync(configPath)) {
+            if (!fs.existsSync(configDir)) {
+                fs.mkdirSync(configDir);
+            }
+            fs.writeFileSync(configPath, JSON.stringify({
+                "iisApp": "ReactChat",
+                "serverAddress": "deploy-server.example.com",
+                "userName": "{WebDeployUserName}",
+                "password": "{WebDeployPassword}"
+            }, null, 4));
+        }
+        if (!fs.existsSync(appSettingsPath)) {
+            if (!fs.existsSync(appSettingsDir)) {
+                fs.mkdirSync(appSettingsDir);
+            }
+            fs.writeFileSync(appSettingsPath,
+                '# Release App Settings\n\nDebugMode false');
+        }
+    }
+
     // Deployment config
-    var config = require('./wwwroot_build/publish/config.json');
+    createConfigsIfMissing();
+    var config = require(configPath);
 
     // Project configuration.
     grunt.initConfig({
@@ -144,34 +195,60 @@ module.exports = function (grunt) {
             }
         },
         gulp: {
+            'copy-files': function (done) {
+                var count = 0;
+                var length = COPY_FILES.length;
+                var result = [];
+                var processCopy = function (index) {
+                    var copy = COPY_FILES[index];
+                    var dest = copy.dest || '';
+                    var src = copy.src;
+
+                    var copyTask = gulp.src(src);
+                    if (copy.afterReplace) {
+                        for (var i = 0; i < copy.afterReplace.length; i++) {
+                            var replace = copy.afterReplace[i];
+                            copyTask = copyTask.pipe(gulpReplace(replace.from, replace.to));
+                        }
+                    }
+                    if (copy.after) {
+                        copyTask = copyTask.pipe(copy.after());
+                    }
+
+                    var hosts = [WEB, NATIVE];
+                    if (copy.host) {
+                        hosts = typeof copy.host == 'string'
+                            ? [copy.host]
+                            : copy.host;
+                    }
+
+                    if (hosts.indexOf(WEB) >= 0) {
+                        copyTask = copyTask
+                            .pipe(newer(webRoot + dest))
+                            .pipe(gulp.dest(webRoot + dest));
+                    }
+                    if (hosts.indexOf(NATIVE) >= 0) {
+                        copyTask = copyTask
+                            .pipe(newer(resourcesRoot + dest))
+                            .pipe(gulp.dest(resourcesRoot + dest));
+                    }
+
+                    copyTask.on('finish', function () {
+                        grunt.log.ok('Copied ' + copy.src);
+                        count++;
+                        if (count === length) {
+                            done();
+                        }
+                    });
+                    return copyTask;
+                }
+                for (var i = 0; i < length; i++) {
+                    result.push(processCopy(i));
+                }
+            },
             'wwwroot-clean-dlls': function (done) {
                 var binPath = webRoot + '/bin/';
                 del(binPath, done);
-            },
-            'wwwroot-copy-bin': function () {
-                var binDest = webRoot + 'bin/';
-                var dest = gulp.dest(binDest).on('end', function () {
-                    grunt.log.ok('wwwroot-copy-bin finished.');
-                });
-                return gulp.src('./bin/**/*')
-                    .pipe(newer(binDest))
-                    .pipe(dest);
-            },
-            'wwwroot-copy-appdata': function () {
-                return gulp.src('./App_Data/**/*')
-                    .pipe(newer(webRoot + 'App_Data/'))
-                    .pipe(gulp.dest(webRoot + 'App_Data/'));
-            },
-            'wwwroot-copy-webconfig': function () {
-                return gulp.src('./web.config')
-                    .pipe(newer(webRoot))
-                    .pipe(gulpReplace('<compilation debug="true" targetFramework="4.5">', '<compilation targetFramework="4.5">'))
-                    .pipe(gulp.dest(webRoot));
-            },
-            'wwwroot-copy-asax': function () {
-                return gulp.src('./Global.asax')
-                    .pipe(newer(webRoot))
-                    .pipe(gulp.dest(webRoot));
             },
             'wwwroot-clean-client-assets': function (done) {
                 del([
@@ -182,20 +259,6 @@ module.exports = function (grunt) {
                     '!wwwroot/**/*.config', //Don't delete config
                     '!wwwroot/appsettings.txt' //Don't delete deploy settings
                 ], done);
-            },
-            'wwwroot-copy-fonts': function () {
-                return gulp.src('./bower_components/bootstrap/dist/fonts/*.*')
-                    .pipe(gulp.dest(resourcesRoot + 'lib/fonts/'))
-                    .pipe(gulp.dest(webRoot + 'lib/fonts/'));
-            },
-            'wwwroot-copy-images': function () {
-                return gulp.src('./img/**/*')
-                    .pipe(gulp.dest(resourcesRoot + 'img/'))
-                    .pipe(gulp.dest(webRoot + 'img/'));
-            },
-            'wwwroot-copy-webjs': function () {
-                return gulp.src('./js/web.js')
-                   .pipe(gulp.dest(webRoot + 'js/'));
             },
             'wwwroot-bundle': function () {
                 var assets = useref.assets({ searchPath: './' });
@@ -209,14 +272,8 @@ module.exports = function (grunt) {
                     .pipe(gulpif('*.css', minifyCss()))
                     .pipe(assets.restore())
                     .pipe(useref())
-                    .pipe(gulpif('*.cshtml', header("@*Auto generated file on " + (new Date().toLocaleString()) + ". See ReactChat project grunt file*@\r\n")))
+                    .pipe(gulpif('*.cshtml', header("@* Auto generated file on " + (new Date().toLocaleTimeString()) + " by ReactChat\\gruntfile.js *@\r\n")))
                     .pipe(gulp.dest(resourcesRoot))
-                    .pipe(gulp.dest(webRoot));
-
-            },
-            'wwwroot-copy-deploy-files': function () {
-                return gulp.src('./wwwroot_build/deploy/*.*')
-                    .pipe(newer(webRoot))
                     .pipe(gulp.dest(webRoot));
 
             },
@@ -237,14 +294,7 @@ module.exports = function (grunt) {
     grunt.registerTask('01-bundle-all', [
         'gulp:wwwroot-clean-dlls',
         'gulp:wwwroot-clean-client-assets',
-        'gulp:wwwroot-copy-bin',
-        'gulp:wwwroot-copy-appdata',
-        'gulp:wwwroot-copy-webconfig',
-        'gulp:wwwroot-copy-asax',
-        'gulp:wwwroot-copy-deploy-files',
-        'gulp:wwwroot-copy-fonts',
-        'gulp:wwwroot-copy-images',
-        'gulp:wwwroot-copy-webjs',
+        'gulp:copy-files',
         'gulp:wwwroot-bundle',
         'nugetrestore:restore-resources',
         'msbuild:release-resources',

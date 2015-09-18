@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using CefSharp;
 using CefSharp.WinForms.Internals;
 
 namespace ReactChat.AppWinForms
