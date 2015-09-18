@@ -52,36 +52,36 @@
     <Reference Include="ReactChat.Resources">
       <HintPath>..\..\lib\ReactChat.Resources.dll</HintPath>
     </Reference>
+    <Reference Include="XamMac" />
     <Reference Include="ServiceStack.Interfaces">
-      <HintPath>..\..\packages\ServiceStack.Interfaces.4.0.44\lib\portable-wp80+sl5+net40+win8+monotouch+monoandroid+xamarin.ios10\ServiceStack.Interfaces.dll</HintPath>
+      <HintPath>..\..\packages\ServiceStack.Interfaces.4.0.45\lib\portable-wp80+sl5+net40+win8+monotouch+monoandroid+xamarin.ios10\ServiceStack.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.Text">
-      <HintPath>..\..\packages\ServiceStack.Text.4.0.44\lib\net40\ServiceStack.Text.dll</HintPath>
+      <HintPath>..\..\packages\ServiceStack.Text.4.0.45\lib\net40\ServiceStack.Text.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.Common">
-      <HintPath>..\..\packages\ServiceStack.Common.4.0.44\lib\net40\ServiceStack.Common.dll</HintPath>
+      <HintPath>..\..\packages\ServiceStack.Common.4.0.45\lib\net40\ServiceStack.Common.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.Client">
-      <HintPath>..\..\packages\ServiceStack.Client.4.0.44\lib\net40\ServiceStack.Client.dll</HintPath>
+      <HintPath>..\..\packages\ServiceStack.Client.4.0.45\lib\net40\ServiceStack.Client.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack">
-      <HintPath>..\..\packages\ServiceStack.4.0.44\lib\net40\ServiceStack.dll</HintPath>
+      <HintPath>..\..\packages\ServiceStack.4.0.45\lib\net40\ServiceStack.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Redis">
+      <HintPath>..\..\packages\ServiceStack.Redis.4.0.45\lib\net40\ServiceStack.Redis.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.OrmLite">
-      <HintPath>..\..\packages\ServiceStack.OrmLite.4.0.44\lib\net45\ServiceStack.OrmLite.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceStack.Razor">
-      <HintPath>..\..\packages\ServiceStack.Razor.4.0.44\lib\net45\ServiceStack.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Razor">
-      <HintPath>..\..\packages\ServiceStack.Razor.4.0.44\lib\net45\System.Web.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="XamMac" />
-    <Reference Include="ServiceStack.Redis">
-      <HintPath>..\..\packages\ServiceStack.Redis.4.0.44\lib\net40\ServiceStack.Redis.dll</HintPath>
+      <HintPath>..\..\packages\ServiceStack.OrmLite.4.0.45\lib\net45\ServiceStack.OrmLite.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.Server">
-      <HintPath>..\..\packages\ServiceStack.Server.4.0.44\lib\net45\ServiceStack.Server.dll</HintPath>
+      <HintPath>..\..\packages\ServiceStack.Server.4.0.45\lib\net45\ServiceStack.Server.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Razor">
+      <HintPath>..\..\packages\ServiceStack.Razor.4.0.45\lib\net45\ServiceStack.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor">
+      <HintPath>..\..\packages\ServiceStack.Razor.4.0.45\lib\net45\System.Web.Razor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -103,12 +103,12 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\ReactChat\ReactChat.ServiceInterface\ReactChat.ServiceInterface.csproj">
-      <Project>{582DFB0F-F84D-4E43-9BCA-2A5A86600B7A}</Project>
+    <ProjectReference Include="..\ReactChat.ServiceInterface\ReactChat.ServiceInterface.csproj">
+      <Project>{BB8CB56A-79EF-4DE1-B1D6-2A3BC2C13814}</Project>
       <Name>ReactChat.ServiceInterface</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ReactChat\ReactChat.ServiceModel\ReactChat.ServiceModel.csproj">
-      <Project>{08BEF328-AB7D-48D3-800D-48ACC75C7914}</Project>
+    <ProjectReference Include="..\ReactChat.ServiceModel\ReactChat.ServiceModel.csproj">
+      <Project>{351142AA-5169-499E-9C7E-B6692FF4EF80}</Project>
       <Name>ReactChat.ServiceModel</Name>
     </ProjectReference>
   </ItemGroup>
