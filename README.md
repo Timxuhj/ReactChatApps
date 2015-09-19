@@ -29,7 +29,7 @@ Just like other templates in ServiceStackVS, the **React Desktop Apps** template
 
 
 #### ReactChat Project
-This project contains all our development resources, JS/JSX, CSS, images, static html, etc. This project also has all the required Grunt/Gulp tasks used for deploying the 3 application outputs. Taking advantage of Visual Studio 2015's Task Runner Explorer, we can look at the `Alias` tasks to get an idea of how we can build and deploy our console, winforms and web application.
+This project contains all our development resources, JS/JSX, CSS, images, html/cshtml, etc. This project also has all the required Grunt/Gulp tasks used for deploying the 3 application outputs. Taking advantage of Visual Studio 2015's Task Runner Explorer, we can look at the `Alias` tasks to get an idea of how we can build and deploy our console, winforms and web application.
 
 ![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/gap/react-desktop-tasks.png)
 
@@ -193,7 +193,7 @@ This project has references to the output files from the `01-bundle-all` Grunt t
     /fonts          # 3rd party fonts
     /js             # 3rd party minified JS
       lib.min.js
-  default.cshtml
+  default.cshtml/default.html
 ```
 
 All files have a `Build Action` of `Embedded Resource` so they are ready to be used from AppConsole and AppWinForms.
@@ -267,7 +267,7 @@ var COPY_FILES = [
 ## 01-bundle-all
 Just like the AngularJS and React App template, we stage our application ready for release and avoid any build steps at development time to improve the simplicity and speed of the development workflow. This alias task is made up of small, simple tasks that use Gulp to process resources and perform tasks like minification, JSX transformation, copying/deleting of resources, etc.
 
-The bundling searches for assets in any `**/*.html` file and follows build comments to minify and replace references. This enables simple use of debug JS files whilst still having control how our resources minify.
+The bundling searches for assets in any `**/*.html` file and follows build comments to minify and replace references. This enables simple use of debug JS files whilst still having control how our resources minify. The ReactChat project uses Razor so this step has been updated to bundle just `default.cshtml`.
 
 ```html
 <!-- build:js lib/js/lib.min.js -->
