@@ -86,9 +86,9 @@ namespace ReactChat.AppMac
 				AppSettings.Set("PlatformJs", "mac.js");
 
 			if(!allKeys.Contains("oauth.RedirectUrl"))
-				AppSettings.Set("oauth.RedirectUrl", MainClass.HostUrl);
+				AppSettings.Set("oauth.RedirectUrl", Program.HostUrl);
 			if(!allKeys.Contains("oauth.CallbackUrl"))
-				AppSettings.Set("oauth.CallbackUrl", MainClass.HostUrl + "auth/{0}");
+				AppSettings.Set("oauth.CallbackUrl", Program.HostUrl + "auth/{0}");
 			if(!allKeys.Contains("oauth.twitter.ConsumerKey"))
 				AppSettings.Set("oauth.twitter.ConsumerKey", "6APZQFxeVVLobXT2wRZArerg0");
 			if (!allKeys.Contains("oauth.twitter.ConsumerSecret"))
@@ -127,8 +127,8 @@ namespace ReactChat.AppMac
 		public void ShowAbout ()
 		{
 			//Invoke native about menu item programmatically.
-			MainClass.MainMenu.InvokeOnMainThread (() => {
-				foreach (var item in MainClass.MainMenu.ItemArray()) {
+			Program.MainMenu.InvokeOnMainThread (() => {
+				foreach (var item in Program.MainMenu.ItemArray()) {
 					if (item.Title == "ReactChat") {
 						item.Submenu.PerformActionForItem (0);
 					}
@@ -136,9 +136,12 @@ namespace ReactChat.AppMac
 			});
 		}
 
-		public void Quit ()
+		public void Quit()
 		{
-			Environment.Exit (0);
+			AppDelegate.MainWindowController.InvokeOnMainThread (() => {
+				AppDelegate.MainWindowController.Hide();
+			});
+			Environment.Exit(0);
 		}
 	}
 }
