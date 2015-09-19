@@ -162,8 +162,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="winforms.css" />
-    <EmbeddedResource Include="winforms.js" />
+    <EmbeddedResource Include="platform.css" />
+    <EmbeddedResource Include="platform.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="logo.ico" />

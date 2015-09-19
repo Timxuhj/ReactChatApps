@@ -2,19 +2,15 @@
 @{
     ViewBag.Title = "Server Sent Events Chat";
     var channels = Request.QueryString["channels"] ?? "home";
-    var platformsClassName = AppSettings.Exists("PlatformClassName") ? AppSettings.GetString("PlatformClassName") : "web";
 }
 <!DOCTYPE html>
-<html class="@platformsClassName">
+<html>
 <head lang="en">
     <meta charset="UTF-8">
     <!--build:css css/app.min.css-->
     <link rel="stylesheet" href="css/app.css" />
     <!-- endbuild -->
-    @if (AppSettings.Exists("PlatformCss"))
-    {
-        <link rel="stylesheet" href="@(AppSettings.GetString("PlatformCss") + "?disableCache=" + DateTime.UtcNow.Ticks)" />
-    }
+    <link rel="stylesheet" href="/platform.css" />
     <!-- build:js lib/js/lib.min.js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/react/react.js"></script>
@@ -25,15 +21,8 @@
     <!-- build:js js/app.min.js -->
     <script src="/js/utils.js"></script>
     <!-- endbuild -->
-    @if (AppSettings.Exists("PlatformJs"))
-    {
-        <script src="@(AppSettings.GetString("PlatformJs") + "?disableCache=" + DateTime.UtcNow.Ticks)"></script>
-    }
 
-    @if (AppSettings.Exists("PlatformJs"))
-    {
-        <script src="@(AppSettings.GetString("PlatformJs") + "?disableCache=" + DateTime.UtcNow.Ticks)"></script>
-    }
+    <script src="/platform.js"></script>
 
     <title>React Template</title>
     <link href="/img/favicon.png" rel="icon">

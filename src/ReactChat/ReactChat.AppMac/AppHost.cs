@@ -40,14 +40,14 @@ namespace ReactChat.AppMac
 			InitializeAppSettings ();
 
 			Plugins.Add (new RazorFormat {
-				LoadFromAssemblies = { typeof(CefResources).Assembly },
+				LoadFromAssemblies = { typeof(SharedEmbeddedResources).Assembly },
 			});
 
 			SetConfig (new HostConfig {
 				DebugMode = AppSettings.Get("DebugMode", false),
 				DefaultContentType = MimeTypes.Json,
 				AllowFileExtensions = { "jsx" },
-				EmbeddedResourceBaseTypes = { typeof(AppHost), typeof(CefResources) },
+				EmbeddedResourceBaseTypes = { typeof(AppHost), typeof(SharedEmbeddedResources) },
 			});
 
 			Routes.Add<NativeHostAction>("/nativehost/{Action}");

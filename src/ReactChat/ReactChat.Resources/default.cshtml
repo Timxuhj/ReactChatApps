@@ -1,32 +1,21 @@
-@* Auto generated file on 12:53:40 by ReactChat\gruntfile.js *@
+@* Auto generated file on 16:44:42 by ReactChat\gruntfile.js *@
 @inherits ServiceStack.Razor.ViewPage
 @{
     ViewBag.Title = "Server Sent Events Chat";
     var channels = Request.QueryString["channels"] ?? "home";
-    var platformsClassName = AppSettings.Exists("PlatformClassName") ? AppSettings.GetString("PlatformClassName") : "web";
 }
 <!DOCTYPE html>
-<html class="@platformsClassName">
+<html>
 <head lang="en">
     <meta charset="UTF-8">
     <link rel="stylesheet" href="css/app.min.css">
-    @if (AppSettings.Exists("PlatformCss"))
-    {
-        <link rel="stylesheet" href="@(AppSettings.GetString("PlatformCss") + "?disableCache=" + DateTime.UtcNow.Ticks)" />
-    }
+    <link rel="stylesheet" href="/platform.css" />
     <script src="lib/js/lib.min.js"></script>
 
     <script src="/js/ss-utils.js"></script><!-- in ServiceStack.dll -->
     <script src="js/app.min.js"></script>
-    @if (AppSettings.Exists("PlatformJs"))
-    {
-        <script src="@(AppSettings.GetString("PlatformJs") + "?disableCache=" + DateTime.UtcNow.Ticks)"></script>
-    }
 
-    @if (AppSettings.Exists("PlatformJs"))
-    {
-        <script src="@(AppSettings.GetString("PlatformJs") + "?disableCache=" + DateTime.UtcNow.Ticks)"></script>
-    }
+    <script src="/platform.js"></script>
 
     <title>React Template</title>
     <link href="/img/favicon.png" rel="icon">

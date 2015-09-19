@@ -112,8 +112,9 @@
     <Content Include="img\twitter_normal.png" />
     <Content Include="js\components\Actions.js" />
     <Content Include="js\utils.js" />
-    <Content Include="js\web.js" />
     <Content Include="img\react-logo.png" />
+    <Content Include="platform.css" />
+    <Content Include="platform.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="tests\unit\hello-test.js" />
     <Content Include="tests\preprocessor.js" />

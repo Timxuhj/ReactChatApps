@@ -45,13 +45,13 @@ namespace ReactChat.AppConsole
 
             Plugins.Add(new RazorFormat
             {
-                LoadFromAssemblies = { typeof(CefResources).Assembly }
+                LoadFromAssemblies = { typeof(SharedEmbeddedResources).Assembly }
             });
 
             SetConfig(new HostConfig
             {
                 DebugMode = true,
-                EmbeddedResourceBaseTypes = { typeof(AppHost), typeof(CefResources) }
+                EmbeddedResourceBaseTypes = { typeof(AppHost), typeof(SharedEmbeddedResources) }
             });
 
             JsConfig.EmitCamelCaseNames = true;

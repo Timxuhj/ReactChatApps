@@ -29,7 +29,7 @@ Just like other templates in ServiceStackVS, the **React Desktop Apps** template
 
 
 #### ReactChat Project
-This project contains all our development resources, JS/JSX, CSS, images, Razor views, etc. This project also has all the required Grunt/Gulp tasks used for deploying the 3 application outputs. Taking advantage of Visual Studio 2015's Task Runner Explorer, we can look at the `Alias` tasks to get an idea of how we can build and deploy our console, winforms and web application.
+This project contains all our development resources, JS/JSX, CSS, images, static html, etc. This project also has all the required Grunt/Gulp tasks used for deploying the 3 application outputs. Taking advantage of Visual Studio 2015's Task Runner Explorer, we can look at the `Alias` tasks to get an idea of how we can build and deploy our console, winforms and web application.
 
 ![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/gap/react-desktop-tasks.png)
 
@@ -74,23 +74,16 @@ The minimum steps to deploy an app is to fill in `config.json` with the remote I
 #### ReactChat.AppConsole
 This project is for producing a SelfHost ServiceStack application that utilizes the user's default browser. Combined with the Grunt/Gulp and ILMerge, we can produce a cross-platform, single executable that has embedded resources used by our application.
 
-This project uses the bundled resources from the web application that are bundled using the Grunt/Gulp tasks. These resources are embedded in the `ReactChat.Resources` and the AppHost needs to be configured to look for these embedded resources. For the compiled Razor views, we use the following configuration for our `RazorFormat` plugin.
+This project uses the bundled resources from the web application that are bundled using the Grunt/Gulp tasks. These resources are embedded in the `ReactChat.Resources` and the AppHost needs to be configured to look for these embedded resources.
 
-``` csharp
-Plugins.Add(new RazorFormat
-{
-    LoadFromAssemblies = { typeof(CefResources).Assembly }
-});
-```
+`SharedEmbeddedResources` is a class in the `ReactChat.Resources` project so we can easily refer to it's assembly with `typeof(SharedEmbeddedResources).Assembly`. 
 
-`CefResources` is a class in the `ReactChat.Resources` project so we can easily refer to it's assembly with `typeof(CefResources).Assembly`. 
-
-For our other resources, we need to set the `EmbeddedResourceBaseTypes` to both our current project and the `ReactChat.Resources` using the `CefResources` type.
+For our other resources, we need to set the `EmbeddedResourceBaseTypes` to both our current project and the `ReactChat.Resources` using the `SharedEmbeddedResources` type.
 
 ```
 SetConfig(new HostConfig
 {
-    EmbeddedResourceBaseTypes = { typeof(AppHost), typeof(CefResources) }
+    EmbeddedResourceBaseTypes = { typeof(AppHost), typeof(SharedEmbeddedResources) }
 });
 ```
 
@@ -100,14 +93,9 @@ SetConfig(new HostConfig
 This project utilizes the CefSharp project for embedding a high performing Chromium browser in a WinForms application. This project, also uses the bundled resources from the web application via the `ReactChat.Resources` project as well being a `AppSelfHostBase` based application, we need to set the same config as our `ReactChat.AppConsole` application in the AppHost.
 
 ``` csharp
-Plugins.Add(new RazorFormat
-{
-    LoadFromAssemblies = { typeof(CefResources).Assembly }
-});
-
 SetConfig(new HostConfig
 {
-    EmbeddedResourceBaseTypes = { typeof(AppHost), typeof(CefResources) }
+    EmbeddedResourceBaseTypes = { typeof(AppHost), typeof(SharedEmbeddedResources) }
 });
 ```
 
@@ -146,7 +134,7 @@ public FormMain()
 }
 ```
 
-CefSharp also enabled integration between JavaScript and native calls via exposing JavaScript objects that are registered .NET classes. In ReactChat and the ServiceStackVS template, we wire up 2 objects to show how this can be leveraged. One to simply show a message box when "About" is clicked and the other to close the application. The .NET classes are POCOs that have matching function names with the JavaScript object registered. The default setting is to camel case the JS object following the common naming conventions when using JS.
+CefSharp also enabled integration between JavaScript and native calls via exposing JavaScript objects that are registered .NET classes. In ReactChat and the React Desktop Apps ServiceStackVS template, we wire a default `nativeHost` object to show how this can be leveraged. One to simply show a message box when "About" is clicked and the other to close the application. The .NET classes are POCOs that have matching function names with the JavaScript object registered. The default setting is to camel case the JS object following the common naming conventions when using JS.
 
 ```csharp
 
@@ -188,36 +176,7 @@ public class NativeHost
 ...
 ```
 
-The `NativeHost` class is exposed by CefSharp as a JavaScript object with functions and properties. The `NativeHost` object is common on all platforms, but the implementation is different to get access to native functionality. CefSharp provides the `nativeHost` JavaScript object, but for other platforms, we need to provide the `nativeHost` JavaScript object via Razor. We use Razor to inject a `PlatformCss` and `PlatformJs` so we can introduce native hooks and presentation into native applications and hide them from our web app.
-``` html
-    @if (AppSettings.Exists("PlatformCss"))
-    {
-        <link rel="stylesheet" href="@(AppSettings.GetString("PlatformCss") + "?disableCache=" + DateTime.UtcNow.Ticks)"/>
-    }
-    @if (AppSettings.Exists("PlatformJs"))
-    {
-        <script src="@(AppSettings.GetString("PlatformJs") + "?disableCache=" + DateTime.UtcNow.Ticks)"></script>
-    }
-``` 
-
-For example, for the OSX platform, we include a `mac.js` embedded resource that provides the same interfaces, but we use a ServiceStack service to fire functions on the native platform.
-
-``` javascript
-window.nativeHost = {
-    quit: function () {
-        $.get('/nativehost/quit');
-    },
-    showAbout: function () {
-    	$.get('/nativehost/showAbout');
-    },
-    ready: function () {
-        //
-    },
-    platform: 'mac'
-}
-```
-
-If CefSharp is being used, these objects are registered before page is rendered and the native hooks will be used instead.
+The `NativeHost` class is exposed by CefSharp as a JavaScript object with functions and properties. The `NativeHost` object is common on all platforms, but the implementation is different to get access to native functionality. For platforms other than `AppWinForms`, we need to provide the `nativeHost` JavaScript object via the embedded resource `platform.js`.
 
 #### ReactChat.Resources
 This project has references to the output files from the `01-bundle-all` Grunt task. If any additional images or minified JS/CSS files are added to your project, they must be referenced by this project to be included as an embedded resource for use in both AppConsole and AppWinForms projects. The structure of the project follows what is deployed in the `wwwroot` project.
@@ -233,11 +192,7 @@ This project has references to the output files from the `01-bundle-all` Grunt t
     /css            # 3rd party css, eg bootstrap
     /fonts          # 3rd party fonts
     /js             # 3rd party minified JS
-      bootstrap.min.js
-      jquery.min.js
-      modernizr.min.js
-      react.min.js
-      reflux.min.js
+      lib.min.js
   default.cshtml
 ```
 
@@ -245,13 +200,74 @@ All files have a `Build Action` of `Embedded Resource` so they are ready to be u
 
 ![](https://github.com/ServiceStack/Assets/raw/master/img/servicestackvs/react-desktop-apps-embedded-resource.png)
 
+#### ReactChat.AppMac
+The React Desktop Apps template also generates a **Xamarin.Mac** project and solution ready to run resuing the shared `ServiceInterface`, `ServiceModel` and `Resources` project. As all the shared web resources are embedded in the `Resources` dll, the `01-bundle-all` stages the output of this project at the solution level under a `lib` folder. If you are working across platform and want to update the `AppMac` project with the latest `Resources`, a common workflow might be to use Git and commit the `lib` folder to source control after changes and updating the local repository on an OSX machine to build the `AppMac` project.
+
+Debugging CSS or JavaScript issues in the `AppMac` project can be done by using the native webview 
+
+# Platform specific JavaScript and CSS
+
+As a way to override styles and behaviour, by convention we load `platform.js` and `platform.css`. In the React Desktop Apps template these are use to provide or override platform specific hooks/behaviour, eg OSX about dialog.
+
+``` javascript
+/* mac */
+document.documentElement.className += ' mac';
+window.nativeHost = {
+    quit: function () {
+        $.post('/nativehost/quit');
+    },
+    showAbout: function () {
+    	$.post('/nativehost/showAbout');
+    },
+    ready: function () {
+        //
+    },
+    platform: 'mac'
+};
+```
+
+`platform.js` and `platform.css` are included in each native platform project as **embedded resource** so they can be hosted in the outputed executable or in the case of shared resources, in the `Resources` project.
+
+>For AppWinForms, CefSharp is being used to provide the `nativeHost` JavaScript object before page is rendered and the native hooks will be used instead.
+
 # Grunt Tasks
 Grunt and Gulp are used in the ReactChat project to automate our bundling, packaging and deployment of the applications. These tasks are declared as small, single responsibility Grunt tasks and then orchastrated using Alias tasks to be able to run these simply either from Visual Studio using the Task Runner Explorer or from the command line.
 
-#### 01-bundle-all
+### Including/Copying additional files
+To provide an easy way to copy files to `wwwroot` and `Resources` project, eg images, fonts etc, a `COPY_FILES` array is declared at the top of the `gruntfile.js` where additional assets can be added. Each object added has a `src`,`dest`, `host` and `afterReplace`.
+
+- `src`* - Can be a single file or wildcard notation supported by `gulp.src`. 
+- `dest` - Destination folder relative to hosts. Must end with a `/`.
+- `host` - `web` for `wwwroot` directory in main web project or `native` for `Resources` project.
+- `afterReplace` - find replace object array expecting `from` and `to` properties. Uses `gulpReplace`.
+
+``` JavaScript
+var WEB = 'web';
+var NATIVE = 'native';
+
+var COPY_FILES = [
+    { src: './bin/**/*', dest: 'bin/', host: WEB },
+    { src: './img/**/*', dest: 'img/' },
+    { src: './App_Data/**/*', dest: 'App_Data/', host: WEB },
+    { src: './Global.asax', host: WEB },
+    { src: './bower_components/bootstrap/dist/fonts/*.*', dest: 'lib/fonts/' },
+    { src: './platform.js', dest: 'js/', host: WEB },
+    { src: './wwwroot_build/deploy/*.*', host: WEB },
+    {
+        src: './web.config',
+        host: [WEB],
+        afterReplace: [{
+            from: '<compilation debug="true" targetFramework="4.5"',
+            to: '<compilation targetFramework="4.5"'
+        }]
+    }
+];
+```
+
+## 01-bundle-all
 Just like the AngularJS and React App template, we stage our application ready for release and avoid any build steps at development time to improve the simplicity and speed of the development workflow. This alias task is made up of small, simple tasks that use Gulp to process resources and perform tasks like minification, JSX transformation, copying/deleting of resources, etc.
 
-The bundling searches for assets in any `*.cshtml` file and follows build comments to minify and replace references. This enables simple use of debug JS files whilst still having control how our resources minify.
+The bundling searches for assets in any `**/*.html` file and follows build comments to minify and replace references. This enables simple use of debug JS files whilst still having control how our resources minify.
 
 ```html
 <!-- build:js lib/js/lib.min.js -->
@@ -279,7 +295,8 @@ The bundling searches for assets in any `*.cshtml` file and follows build commen
 
 When creating new JS files for your application, they should be added in the `build:js js/app.jsx.js` comments shown above. `build:remove` is used to remove the use of the runtime JSX transformer that we use for our React components, but is not longer needed ([and recommended not to be used in a production environment](https://facebook.github.io/react/docs/tooling-integration.html)) in our deployed application.
 
-#### 02-package-console
+
+## 02-package-console
 This task also performs `01-build-all` as well restoring NuGet packages and building the **AppConsole** project. Once the project resources are ready, it calls the `package-deploy-console.bat` batch file which, using **ILMerge**, produces the stand alone exe of the console application and copies it to `apps` output directory.
 
 ``` bat
@@ -305,8 +322,6 @@ SET INPUT=%INPUT% %RELEASE%\ServiceStack.Interfaces.dll
 SET INPUT=%INPUT% %RELEASE%\ServiceStack.Server.dll
 SET INPUT=%INPUT% %RELEASE%\ServiceStack.OrmLite.dll
 SET INPUT=%INPUT% %RELEASE%\ServiceStack.Redis.dll
-SET INPUT=%INPUT% %RELEASE%\ServiceStack.Razor.dll
-SET INPUT=%INPUT% %RELEASE%\System.Web.Razor.dll
 
 %ILMERGE% /target:exe /targetplatform:v4,"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5" /out:%STAGING%\%OUTPUTNAME% /ndebug %INPUT% 
 
@@ -317,7 +332,7 @@ MD apps
 COPY /Y .\%STAGING%\%OUTPUTNAME% .\apps\
 ```
 
-#### 03-package-winforms
+## 03-package-winforms
 This task also performs `01-build-all` as well restoring NuGet packages and building the **AppWinForms** project. Once the project resources are ready, it calls `package-deploy-winforms.bat` which uses 7zip SFX to zip and compresses the CefSharp.WinForms ReactChat.AppWinForms application in a self executing zip package.
 
 ``` batch
@@ -362,7 +377,7 @@ Configuration options for 7z SFX can be found in the [7z SFX documentation](http
 
 The ReactChatApp solution is using a modified version of the `7zsd_All.sfx` file which generates the self executable with the custom ServiceStack `.ico` file. More information on how to change this to a custom icon can be found on the [7zsfx.info](http://7zsfx.info/en/icon.html) site.
 
-#### 04-deploy-webapp
+## 04-deploy-webapp
 
 This Grunt task uses the same conventions as those found in the AngularJS and ReactApp template in ServiceStackVS. WebDeploy is used to deploy the application from the staged `wwwroot` folder to an existing IIS application. Config for the deployment, eg the IIS Server address, application name, username and password is located in the `/wwwroot_build/publish/config.js`. 
 
@@ -377,7 +392,7 @@ If you are using **Github's default Visual Studio ignore, this file will not be 
 
 This task shows a quick way of updating your development server quickly after making changes to your application. For more information on use web-deploy using either Grunt or just Visual Studio publish, see '[WebDeploy with AWS](https://github.com/ServiceStack/ServiceStack/wiki/WebDeploy-with-AWS#deploy-using-grunt)'.
 
-### Design-time only resources
+# Design-time only resources
 
 Gulp also supports design-time vs run-time dependencies with the `build:remove` task which can be used to remove any unnecessary dependencies not required in production like react's `JSXTransformer.js`:
 

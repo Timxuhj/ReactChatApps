@@ -38,7 +38,7 @@ namespace ReactChat.AppWinForms
             Plugins.Add(new ServerEventsFeature());
             Plugins.Add(new RazorFormat
             {
-                LoadFromAssemblies = { typeof(CefResources).Assembly }
+                LoadFromAssemblies = { typeof(SharedEmbeddedResources).Assembly }
             });
 
             MimeTypes.ExtensionMimeTypes["jsv"] = "text/jsv";
@@ -47,7 +47,7 @@ namespace ReactChat.AppWinForms
             {
                 DebugMode = AppSettings.Get("DebugMode", false),
                 DefaultContentType = MimeTypes.Json,
-                EmbeddedResourceBaseTypes = { typeof(AppHost), typeof(CefResources) }
+                EmbeddedResourceBaseTypes = { typeof(AppHost), typeof(SharedEmbeddedResources) }
             });
 
             CustomErrorHttpHandlers.Remove(HttpStatusCode.Forbidden);

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ReactChat.Resources
 {
-    public class CefResources
+    public class SharedEmbeddedResources
     {
     }
 }
