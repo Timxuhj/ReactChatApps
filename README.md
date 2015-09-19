@@ -201,7 +201,11 @@ All files have a `Build Action` of `Embedded Resource` so they are ready to be u
 ![](https://github.com/ServiceStack/Assets/raw/master/img/servicestackvs/react-desktop-apps-embedded-resource.png)
 
 #### ReactChat.AppMac
-The React Desktop Apps template also generates a **Xamarin.Mac** project and solution ready to run resuing the shared `ServiceInterface`, `ServiceModel` and `Resources` project. As all the shared web resources are embedded in the `Resources` dll, the `01-bundle-all` stages the output of this project at the solution level under a `lib` folder. If you are working across platform and want to update the `AppMac` project with the latest `Resources`, a common workflow might be to use Git and commit the `lib` folder to source control after changes and updating the local repository on an OSX machine to build the `AppMac` project.
+The React Desktop Apps template also generates a **Xamarin.Mac** project and solution ready to run resuing the shared `ServiceInterface`, `ServiceModel` and `Resources` project. As all the shared web resources are embedded in the `Resources` dll, the `01-bundle-all` stages the output of this project at the solution level under a `lib` folder. 
+
+![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/livedemos/react-desktop-apps/react-chat-sln-folders.png)
+
+If you are working across platform and want to update the `AppMac` project with the latest `Resources`, a common workflow might be to use Git and commit the `lib` folder to source control after changes and updating the local repository on an OSX machine to build the `AppMac` project.
 
 Debugging CSS or JavaScript issues in the `AppMac` project can be done by using the native webview 
 

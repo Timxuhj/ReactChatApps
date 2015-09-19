@@ -1,6 +1,4 @@
 ﻿using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
-using CefSharp;
 using CefSharp.WinForms.Internals;
 
 namespace ReactChat.AppWinForms
@@ -81,10 +79,10 @@ namespace ReactChat.AppWinForms
     }
 
 #if DEBUG
-    public class KeyboardHandler : IKeyboardHandler
+    public class KeyboardHandler : CefSharp.IKeyboardHandler
     {
-        public bool OnPreKeyEvent(IWebBrowser browserControl, KeyType type, int windowsKeyCode, int nativeKeyCode,
-            CefEventFlags modifiers, bool isSystemKey, ref bool isKeyboardShortcut)
+        public bool OnPreKeyEvent(CefSharp.IWebBrowser browserControl, CefSharp.KeyType type, int windowsKeyCode, int nativeKeyCode,
+            CefSharp.CefEventFlags modifiers, bool isSystemKey, ref bool isKeyboardShortcut)
         {
             if (windowsKeyCode == (int)Keys.F12)
             {
@@ -93,7 +91,7 @@ namespace ReactChat.AppWinForms
             return false;
         }
 
-        public bool OnKeyEvent(IWebBrowser browserControl, KeyType type, int windowsKeyCode, CefEventFlags modifiers, bool isSystemKey)
+        public bool OnKeyEvent(CefSharp.IWebBrowser browserControl, CefSharp.KeyType type, int windowsKeyCode, CefSharp.CefEventFlags modifiers, bool isSystemKey)
         {
             return false;
         }
