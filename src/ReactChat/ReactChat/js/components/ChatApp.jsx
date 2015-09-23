@@ -71,8 +71,20 @@ var ChatApp = React.createClass({
                     off: this.tvOff
                 },
                 formMain: {
-                    dockLeft: function () { window.nativeHost.dockLeft(); },
-                    dockRight: function () { window.nativeHost.dockRight(); }
+                    quit: function () { window.nativeHost.quit(); },
+                    shrink: function () { window.nativeHost.shrink(); },
+                    grow: function () { window.nativeHost.grow(); },
+                    dance: function () {
+                        $("#right,#bottom,#log").fadeOut('slow');
+
+                        setTimeout(function () {
+                            window.nativeHost.dance();
+                        }, 1000);
+
+                        setTimeout(function () {
+                            $("#right,#bottom,#log").fadeIn('slow');
+                        }, 7000);
+                    }
                 }
             }
         });

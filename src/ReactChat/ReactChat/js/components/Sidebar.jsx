@@ -23,10 +23,10 @@ var Sidebar = React.createClass({
                     <span data-click="sendCommand">
                         <h4><a href="https://github.com/ServiceStackApps/Chat#global-event-handlers">Example Commands</a></h4>
                         { this.isWinforms() ? <div>/cmd.toggleFormBorder</div> : null}
-                        <div>/cmd.announce This is your captain speaking ...</div>
+                        <div>/cmd.announce Lets Dance!</div>
                         <div>/cmd.toggle$#channels</div>
                         <h4><a href="https://github.com/ServiceStackApps/Chat#modifying-css-via-jquery">CSS</a></h4>
-                        <div>/css.background-image url(http://bit.ly/1oQqhtm)</div>
+                        <div>/css.background-image url(http://bit.ly/1OujUOh)</div>
                         <div>/css.background-image url(http://bit.ly/1yIJOBH)</div>
                         <div>@me /css.background$#top #673ab7</div>
                         <div>/css.background$#bottom #0091ea</div>
@@ -35,11 +35,12 @@ var Sidebar = React.createClass({
                         <div>/css.visibility$img,a hidden</div>
                         <div>/css.visibility$img,a visible</div>
                         <h4><a href="https://github.com/ServiceStackApps/Chat#receivers">Receivers</a></h4>
-                        <div>/tv.watch http://youtu.be/518XP8prwZo</div>
+                        <div>/tv.watch https://youtu.be/9bZkp7q19f0</div>
                         <div>/tv.watch https://servicestack.net/img/logo-220.png</div>
                         <div>@me /tv.off</div>
-                        { this.isWinforms() ? <div>/formMain.dockLeft</div> : null}
-                        { this.isWinforms() ? <div>/formMain.dockRight</div> : null}
+                        { this.isWinforms() ? <div>/formMain.shrink</div> : null}
+                        { this.isWinforms() ? <div>/formMain.grow</div> : null}
+                        { this.isWinforms() ? <div>/formMain.dance</div> : null}
                         <div>/window.location http://google.com</div>
                         <h4><a href="https://github.com/ServiceStackApps/Chat#jquery-events">Triggers</a></h4>
                         <div>/trigger.customEvent arg</div>

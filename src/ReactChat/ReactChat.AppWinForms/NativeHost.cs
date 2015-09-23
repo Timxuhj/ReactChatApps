@@ -1,5 +1,7 @@
-﻿using System.Windows.Forms;
+﻿using System.Threading;
+using System.Windows.Forms;
 using CefSharp.WinForms.Internals;
+using ServiceStack;
 
 namespace ReactChat.AppWinForms
 {
@@ -33,36 +35,87 @@ namespace ReactChat.AppWinForms
                 formMain.FormBorderStyle = formMain.FormBorderStyle == FormBorderStyle.None
                     ? FormBorderStyle.Sizable
                     : FormBorderStyle.None;
-                formMain.Left = formMain.Top = 0;
-                formMain.Width = Screen.PrimaryScreen.WorkingArea.Width;
+            });
+        }
+
+        public void Shrink()
+        {
+            formMain.InvokeOnUiThreadIfRequired(() =>
+            {
+                formMain.Height = Screen.PrimaryScreen.WorkingArea.Height / 2;
+            });
+        }
+
+        public void Grow()
+        {
+            formMain.InvokeOnUiThreadIfRequired(() =>
+            {
                 formMain.Height = Screen.PrimaryScreen.WorkingArea.Height;
             });
         }
 
-        public void DockLeft()
+        struct Position
         {
-            formMain.InvokeOnUiThreadIfRequired(() =>
+            public Position(int top, int height, int pause)
             {
-                formMain.MaximizeBox = false;
-                formMain.Left = 0;
-                formMain.Width = Screen.PrimaryScreen.WorkingArea.Width / 2;
-                formMain.Height = Screen.PrimaryScreen.WorkingArea.Height;
-            });
+                Top = top;
+                Height = height;
+                Pause = pause;
+            }
+
+            public int Top;
+            public int Height;
+            public int Pause;
         }
 
-        public void DockRight()
+        public void Dance()
         {
-            formMain.InvokeOnUiThreadIfRequired(() =>
+            var height = Screen.PrimaryScreen.WorkingArea.Height;
+            var positions = new[]
             {
-                formMain.MaximizeBox = false;
-                formMain.Left = Screen.PrimaryScreen.WorkingArea.Width / 2;
-                formMain.Width = Screen.PrimaryScreen.WorkingArea.Width / 2;
-                formMain.Height = Screen.PrimaryScreen.WorkingArea.Height;
-            });
+                new Position(0, height, 500),
+                new Position(height / 16, height / 16 * 15, 500),
+                new Position(height / 8, height / 8 * 7, 500),
+                new Position(height / 4, height / 4 * 3, 500),
+                new Position(height / 2, height / 2, 500),
+
+                new Position(height / 2, height / 2 - 100, 250),
+                new Position(height / 2, height / 2 - 200, 250),
+                new Position(height / 2, height / 2 - 100, 250),
+                new Position(height / 2, height / 2, 200),
+
+                new Position(height / 2, height / 2 - 100, 250),
+                new Position(height / 2, height / 2 - 200, 250),
+                new Position(height / 2, height / 2 - 100, 250),
+                new Position(height / 2, height / 2, 500),
+
+                new Position(height / 4, height / 4 * 3, 500),
+                new Position(height / 8, height / 8 * 7, 500),
+                new Position(height / 16, height / 16 * 15, 500),
+                new Position(0, height, 0),
+            };
+
+            foreach (var position in positions)
+            {
+                formMain.InvokeOnUiThreadIfRequired(() =>
+                {
+                    formMain.Top = position.Top;
+                    formMain.Height = position.Height;
+                });
+                Thread.Sleep(position.Pause);
+            }
         }
 
         public void Quit()
         {
+            formMain.InvokeOnUiThreadIfRequired(() =>
+            {
+                formMain.Hide();
+                HostContext.Resolve<IServerEvents>().NotifyChannel("home", "cmd.announce", "Quick follow me, lets get out of here..");
+                Thread.Sleep(1000);
+                HostContext.Resolve<IServerEvents>().NotifyChannel("home", "formMain.quit", "");
+            });
+
             formMain.InvokeOnUiThreadIfRequired(() =>
             {
                 formMain.Close();

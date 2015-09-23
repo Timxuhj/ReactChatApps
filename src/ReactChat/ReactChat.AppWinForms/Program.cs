@@ -27,9 +27,19 @@ namespace ReactChat.AppWinForms
             Application.SetCompatibleTextRenderingDefault(false);
 
             AppHost = new AppHost();
-            AppHost.Init().Start("http://*:1337/");
-            "ServiceStack SelfHost listening at {0} ".Fmt(HostUrl).Print();
-            Form = new FormMain();
+
+            try
+            {
+                AppHost.Init().Start("http://*:1337/");
+                "ServiceStack SelfHost listening at {0} ".Fmt(HostUrl).Print();
+                Form = new FormMain();
+            }
+            catch
+            {
+                "Listening to existing service at {0}".Print(HostUrl);
+                Form = new FormMain(startRight: true);
+            }
+
             Application.Run(Form);
         }
     }

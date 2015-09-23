@@ -10,7 +10,7 @@ namespace ReactChat.AppWinForms
         public ChromiumWebBrowser ChromiumBrowser { get; private set; }
         public Panel SplashPanel { get { return splashPanel; } }
 
-        public FormMain()
+        public FormMain(bool startRight=false)
         {
             InitializeComponent();
             VerticalScroll.Visible = false;
@@ -22,8 +22,9 @@ namespace ReactChat.AppWinForms
 
             Load += (sender, args) =>
             {
-                Left = Top = 0;
-                Width = Screen.PrimaryScreen.WorkingArea.Width;
+                Top = 0;
+                Left = startRight ? Screen.PrimaryScreen.WorkingArea.Width / 2 : 0;
+                Width = Screen.PrimaryScreen.WorkingArea.Width / 2;
                 Height = Screen.PrimaryScreen.WorkingArea.Height;
             };
 
