@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using ServiceStack.Text;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
 using MonoMac.ObjCRuntime;
@@ -15,8 +16,15 @@ namespace ReactChat.AppMac
 
 		static void Main (string[] args)
 		{
-			App = new AppHost();
-			App.Init().Start("http://*:3337/");
+			try
+			{
+				App = new AppHost();
+				App.Init().Start("http://*:3337/");
+			}
+			catch 
+			{
+				"Use existing AppHost found on {0}".Print(HostUrl);
+			}
 
 			NSApplication.Init();
 			NSApplication.Main(args);

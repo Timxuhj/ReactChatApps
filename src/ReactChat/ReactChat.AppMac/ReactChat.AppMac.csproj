@@ -26,6 +26,8 @@
     <EnableCodeSigning>false</EnableCodeSigning>
     <CreatePackage>false</CreatePackage>
     <NoStdLib>true</NoStdLib>
+    <CodeSigningKey>Mac Developer</CodeSigningKey>
+    <PackageSigningKey>Developer ID Installer</PackageSigningKey>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -38,9 +40,11 @@
     <UseSGen>false</UseSGen>
     <IncludeMonoRuntime>false</IncludeMonoRuntime>
     <CreatePackage>false</CreatePackage>
-    <EnableCodeSigning>false</EnableCodeSigning>
+    <EnableCodeSigning>true</EnableCodeSigning>
     <EnablePackageSigning>false</EnablePackageSigning>
     <NoStdLib>true</NoStdLib>
+    <CodeSigningKey>Developer ID Application: Service Stack (68KV657XKB)</CodeSigningKey>
+    <PackageSigningKey>Developer ID Installer</PackageSigningKey>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
@@ -88,10 +92,10 @@
     <Compile Include="AppDelegate.cs" />
     <Compile Include="AppDelegate.designer.cs" />
     <Compile Include="AppHost.cs" />
-    <Compile Include="Main.cs" />
     <Compile Include="MainWindow.cs" />
     <Compile Include="MainWindow.designer.cs" />
     <Compile Include="MainWindowController.cs" />
+    <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
