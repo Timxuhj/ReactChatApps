@@ -110,6 +110,9 @@
     <EmbeddedResource Include="img\no-profile64.png" />
     <EmbeddedResource Include="img\twitter_normal.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="img\disco.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

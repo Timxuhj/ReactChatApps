@@ -105,6 +105,7 @@
     <Content Include="default.cshtml" />
     <Content Include="img\bg.jpg" />
     <Content Include="img\close.png" />
+    <Content Include="img\disco.jpg" />
     <Content Include="img\facebook_normal.png" />
     <Content Include="img\favicon.png" />
     <Content Include="img\github_normal.png" />
