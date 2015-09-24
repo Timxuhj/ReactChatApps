@@ -14,6 +14,18 @@ Additionally, an **OSX** project using Xamarin.Mac is generated preconfigured an
 
 ![WinForms application with loading splash screen](https://github.com/ServiceStack/Assets/raw/master/img/livedemos/react-desktop-apps/redis-chat-app.gif)
 
+### Controlling multiple Windows with Server Events
+
+A nice benefit for using Server Events for real-time communication with JavaScript is that you can you're able 
+to control multiple window clients naturally by having each Windows App subscribe to the same event 
+stream url which React Chat lets you do by just opening up multiple windows. 
+
+The `/windows.dance` chat message provides a nice demonstration of this in action :)
+
+#### [YouTube Live Demo](https://youtu.be/-9kVqdPbqOM)
+
+[![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/livedemos/react-desktop-apps/dancing-windows.png)](https://youtu.be/-9kVqdPbqOM)
+
 # Project Structure
 Just like other templates in ServiceStackVS, the **React Desktop Apps** template provides the same recommended structure as well as 3 additional other projects for producing the Console and WinForms applications.
 
