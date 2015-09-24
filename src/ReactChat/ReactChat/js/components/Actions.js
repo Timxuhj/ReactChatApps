@@ -10,7 +10,8 @@ var Actions = Reflux.createActions([
     "userSelected",
     "channelSelected",
     "setText",
-    "aboutDialog"
+    "aboutDialog",
+    "sendMessage"
 ]);
 
 var ChannelStore = Reflux.createStore({
@@ -44,7 +45,7 @@ var MessagesStore = Reflux.createStore({
     notifyAll: function () {
         this.trigger(this.messages[this.channels.selected] || []);
     },
-    didConnect: function () {
+    didConnect: function (u) {
         this.addMessages([{ message: "CONNECTED!", cls: "open" }]);
     },
     logError: function () {
@@ -85,12 +86,18 @@ var MessagesStore = Reflux.createStore({
 var UsersStore = Reflux.createStore({
     init: function () {
         this.listenTo(Actions.refreshUsers, this.refreshUsers);
+        this.listenTo(Actions.sendMessage, this.sendMessage);
+        this.listenTo(Actions.didConnect, this.didConnect);
         this.listenTo(ChannelStore, this.onChannelChanged);
         this.channels = ChannelStore.getData();
         this.users = {};
+        this.activeSub = null;
     },
     notifyAll: function () {
         this.trigger(this.users[this.channels.selected] || []);
+    },
+    didConnect: function (activeSub) {
+        this.activeSub = activeSub;
     },
     refreshUsers: function () {
         var $this = this;
@@ -112,6 +119,49 @@ var UsersStore = Reflux.createStore({
     onChannelChanged: function (channels) {
         this.channels = channels;
         this.notifyAll();
+    },
+    sendMessage: function (msg) {
+        if (!msg || !this.activeSub) return;
+
+        var to = null;
+        if (msg[0] == '@') {
+            var parts = $.ss.splitOnFirst(msg, " ");
+            var toName = parts[0].substring(1);
+            if (toName == "me") {
+                to = this.activeSub.userId;
+            } else {
+                var toUser = this.users.filter(function (user) {
+                    return user.displayName === toName.toLowerCase();
+                })[0];
+                if (toUser)
+                    to = toUser.userId;
+            }
+            msg = parts[1];
+        }
+
+        var onError = function (e) {
+            if (e.responseJSON && e.responseJSON.responseStatus)
+                Actions.showError(e.responseJSON.responseStatus.message);
+        };
+
+        if (msg[0] == "/") {
+            var parts = $.ss.splitOnFirst(msg, " ");
+            $.post("/channels/" + this.channels.selected + "/raw", {
+                    from: this.activeSub.id,
+                    toUserId: to,
+                    message: parts[1],
+                    selector: parts[0].substring(1)
+                }, function () { }
+            ).fail(onError);
+        } else {
+            $.post("/channels/" + this.channels.selected + "/chat", {
+                    from: this.activeSub.id,
+                    toUserId: to,
+                    message: msg,
+                    selector: "cmd.chat"
+                }, function(){}
+            ).fail(onError);
+        }
     }
 });
 

@@ -20,49 +20,10 @@ var Footer = React.createClass({
             to = null,
             activeSub = this.props.activeSub;
 
-        if (msg) {
+        if (msg)
             this.state.msgHistory.push(msg);
-        }
 
-        if (msg[0] == '@') {
-            parts = $.ss.splitOnFirst(msg, " ");
-            var toName = parts[0].substring(1);
-            if (toName == "me") {
-                to = activeSub.userId;
-            } else {
-                var toUser = this.props.users.filter(function(user) { 
-                    return user.displayName === toName.toLowerCase();
-                })[0];
-                to = toUser ? toUser.userId : null;
-            }
-            msg = parts[1];
-        }
-        if (!msg || !activeSub) return;
-        var onError = function (e) {
-            if (e.responseJSON && e.responseJSON.responseStatus)
-                Actions.showError(e.responseJSON.responseStatus.message);
-        };
-
-        if (msg[0] == "/") {
-            parts = $.ss.splitOnFirst(msg, " ");
-            $.post("/channels/" + this.props.channel + "/raw", { 
-                    from: activeSub.id, 
-                    toUserId: to, 
-                    message: parts[1], 
-                    selector: parts[0].substring(1) 
-                }, 
-                function(){}
-            ).fail(onError);
-        } else {
-            $.post("/channels/" + this.props.channel + "/chat", { 
-                    from: activeSub.id, 
-                    toUserId: to, 
-                    message: msg, 
-                    selector: "cmd.chat" 
-                }, 
-                function(){}
-            ).fail(onError);
-        }
+        Actions.sendMessage(msg);
 
         this.setState({ value: '' });
     },

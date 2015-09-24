@@ -23,10 +23,10 @@ var Sidebar = React.createClass({
                     <span data-click="sendCommand">
                         <h4><a href="https://github.com/ServiceStackApps/Chat#global-event-handlers">Example Commands</a></h4>
                         { this.isWinforms() ? <div>/cmd.toggleFormBorder</div> : null}
-                        <div>/cmd.announce Lets Dance!</div>
+                        <div>/cmd.announce This is your captain speaking ...</div>
                         <div>/cmd.toggle$#channels</div>
                         <h4><a href="https://github.com/ServiceStackApps/Chat#modifying-css-via-jquery">CSS</a></h4>
-                        <div>/css.background-image url(http://bit.ly/1OujUOh)</div>
+                        <div>/css.background-image url(/img/disco.jpg)</div>
                         <div>/css.background-image url(http://bit.ly/1yIJOBH)</div>
                         <div>@me /css.background$#top #673ab7</div>
                         <div>/css.background$#bottom #0091ea</div>

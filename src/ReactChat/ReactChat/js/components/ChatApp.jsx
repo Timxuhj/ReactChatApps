@@ -44,7 +44,7 @@ var ChatApp = React.createClass({
                 onConnect: function (u) {
                     $this.setState({ activeSub: u });
 
-                    Actions.didConnect();
+                    Actions.didConnect(u);
 
                     $.getJSON($this.props.chatHistoryUrl, function (r) {
                         Actions.addMessages(r.results);
