@@ -35,6 +35,7 @@ namespace ReactChat.AppWinForms
                 formMain.FormBorderStyle = formMain.FormBorderStyle == FormBorderStyle.None
                     ? FormBorderStyle.Sizable
                     : FormBorderStyle.None;
+                formMain.Height = Screen.PrimaryScreen.WorkingArea.Height;
             });
         }
 
@@ -74,9 +75,12 @@ namespace ReactChat.AppWinForms
             var positions = new[]
             {
                 new Position(0, height, 500),
+
                 new Position(height / 16, height / 16 * 15, 500),
-                new Position(height / 8, height / 8 * 7, 500),
-                new Position(height / 4, height / 4 * 3, 500),
+                new Position(height / 16 * 2, height / 16 * 14, 500),
+                new Position(height / 16 * 3, height / 16 * 13, 500),
+                new Position(height / 16 * 4, height / 16 * 12, 500),
+                new Position(height / 16 * 6, height / 16 * 10, 500),
                 new Position(height / 2, height / 2, 500),
 
                 new Position(height / 2, height / 2 - 100, 250),
@@ -87,23 +91,29 @@ namespace ReactChat.AppWinForms
                 new Position(height / 2, height / 2 - 100, 250),
                 new Position(height / 2, height / 2 - 200, 250),
                 new Position(height / 2, height / 2 - 100, 250),
-                new Position(height / 2, height / 2, 500),
 
-                new Position(height / 4, height / 4 * 3, 500),
-                new Position(height / 8, height / 8 * 7, 500),
+                new Position(height / 2, height / 2, 500),
+                new Position(height / 16 * 6, height / 16 * 10, 500),
+                new Position(height / 16 * 4, height / 16 * 12, 500),
+                new Position(height / 16 * 3, height / 16 * 13, 500),
+                new Position(height / 16 * 2, height / 16 * 14, 500),
                 new Position(height / 16, height / 16 * 15, 500),
+
                 new Position(0, height, 0),
             };
 
-            foreach (var position in positions)
+            2.Times(i =>
             {
-                formMain.InvokeOnUiThreadIfRequired(() =>
+                foreach (var position in positions)
                 {
-                    formMain.Top = position.Top;
-                    formMain.Height = position.Height;
-                });
-                Thread.Sleep(position.Pause);
-            }
+                    formMain.InvokeOnUiThreadIfRequired(() =>
+                    {
+                        formMain.Top = position.Top;
+                        formMain.Height = position.Height;
+                    });
+                    Thread.Sleep(position.Pause);
+                }
+            });
         }
 
         public void Quit()
@@ -113,7 +123,7 @@ namespace ReactChat.AppWinForms
                 formMain.Hide();
                 HostContext.Resolve<IServerEvents>().NotifyChannel("home", "cmd.announce", "Quick follow me, lets get out of here..");
                 Thread.Sleep(1000);
-                HostContext.Resolve<IServerEvents>().NotifyChannel("home", "formMain.quit", "");
+                HostContext.Resolve<IServerEvents>().NotifyChannel("home", "windows.quit", "");
             });
 
             formMain.InvokeOnUiThreadIfRequired(() =>

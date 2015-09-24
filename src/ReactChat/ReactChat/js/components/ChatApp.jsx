@@ -70,20 +70,27 @@ var ChatApp = React.createClass({
                     watch: this.tvOn,
                     off: this.tvOff
                 },
-                formMain: {
+                windows: {
                     quit: function () { window.nativeHost.quit(); },
                     shrink: function () { window.nativeHost.shrink(); },
                     grow: function () { window.nativeHost.grow(); },
                     dance: function () {
-                        $("#right,#bottom,#log").fadeOut('slow');
+                        Actions.sendMessage("/cmd.announce Lets Dance!");
+                        Actions.sendMessage("/tv.watch https://youtu.be/9bZkp7q19f0");
+                        setTimeout(function() {
+                            Actions.sendMessage("/css.background url(/img/disco.jpg)");
+                            $("#right,#bottom,#log").fadeOut('slow');
 
-                        setTimeout(function () {
-                            window.nativeHost.dance();
+                            setTimeout(function() {
+                                window.nativeHost.dance();
+                            }, 2000);
+
+                            setTimeout(function() {
+                                $("#right,#bottom,#log").fadeIn('slow');
+                                Actions.sendMessage("/css.background url(/img/bg.jpg)");
+                                Actions.sendMessage("/tv.off");
+                            }, 16000);
                         }, 1000);
-
-                        setTimeout(function () {
-                            $("#right,#bottom,#log").fadeIn('slow');
-                        }, 7000);
                     }
                 }
             }
