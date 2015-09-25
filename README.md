@@ -1,10 +1,16 @@
 # React Chat Apps
 
-A chat demo of building a React application to target multiple platforms using the **React Desktop Apps** template from the ServiceStackVS extension. In this demo we've ported the [Chat-React demo application](https://github.com/ServiceStackApps/Chat-React) to the React Desktop Apps template to take advantage of [CefSharp](https://github.com/cefsharp/CefSharp) to help you get the benefits of native applications whilst using great tools and frameworks from the web!
+A chat demo of building a React application to target multiple platforms using the 
+**[React Desktop Apps](https://github.com/ServiceStackApps/ReactDesktopApps)** 
+template from the ServiceStackVS extension. In this demo we've ported the 
+[Chat-React demo application](https://github.com/ServiceStackApps/Chat-React) to the React Desktop Apps 
+template to take advantage of [CefSharp](https://github.com/cefsharp/CefSharp) to help you get the benefits 
+of native applications whilst using great tools and frameworks from the web!
 
-![React Desktop Apps](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/gap/react-desktop-splash.png)
+[![React Desktop Apps](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/gap/react-desktop-splash.png)](https://github.com/ServiceStackApps/ReactDesktopApps)
 
-The React Desktop Apps template is setup ready to deploy to multiple target platforms, just by running a grunt task after creating our solution, we have 3 working applications from Visual Studio including:
+The [React Desktop Apps](https://github.com/ServiceStackApps/ReactDesktopApps) 
+template is setup ready to deploy to multiple target platforms, just by running a grunt task after creating our solution, we have 3 working applications from Visual Studio including:
 
 - **Web** - Ready to deploy.
 - **Console** - Single portable, cross platform executable that utilises the user's default browser.
@@ -16,9 +22,10 @@ Additionally, an **OSX** project using Xamarin.Mac is generated preconfigured an
 
 ### Controlling multiple Windows with Server Events
 
-A nice benefit for using Server Events for real-time communication with JavaScript is that you can you're able 
-to control multiple window clients naturally by having each Windows App subscribe to the same event 
-stream url which React Chat lets you do by just opening up multiple windows. 
+React Chat uses Server Events for real-time communication with JavaScript, which is able to control 
+multiple window clients naturally just by having each Windows Application subscribe to the same 
+remote `/event-stream` url. You can do in React Chat just by opening multiple windows, as all subesquent 
+Windows Apps opened listen to the self-hosting listener of the first one that was opened. 
 
 The `/windows.dance` chat message provides a nice demonstration of this in action :)
 
