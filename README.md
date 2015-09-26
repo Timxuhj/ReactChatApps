@@ -43,17 +43,21 @@ The `/windows.dance` chat message provides a nice demonstration of this in actio
 
 ## Downloads
 
-Windows Winforms App:
+#### Windows Winforms App
 
-##### [ReactChat-winforms.exe](https://github.com/ServiceStackApps/ReactChatApps/raw/master/dist/ReactChat-winforms.exe) (23.6 MB)
+[ReactChat-winforms.exe](https://github.com/ServiceStackApps/ReactChatApps/raw/master/dist/ReactChat-winforms.exe) (23.6 MB)
 
-OSX Cocoa App: 
+#### OSX Cocoa App: 
 
-##### [ReactChat.AppMac.mono.app](https://github.com/ServiceStackApps/ReactChatApps/raw/master/dist/ReactChat.AppMac.mono.app.zip) (16.9 MB) or without Mono [ReactChat.AppMac.app](https://github.com/ServiceStackApps/ReactChatApps/raw/master/dist/ReactChat.AppMac.app.zip) (4.51 MB)
+[ReactChat.AppMac.mono.app.zip](https://github.com/ServiceStackApps/ReactChatApps/raw/master/dist/ReactChat.AppMac.mono.app.zip) (16.9 MB) 
 
-Console App (Windows/OSX/Linux):
+Without Mono Embedded: 
 
-##### [ReactChat-console.exe](https://github.com/ServiceStackApps/ReactChatApps/raw/master/dist/ReactChat-console.exe) (5.33 MB) or [DefaultApp-console.zip](https://github.com/ServiceStackApps/ReactChatApps/raw/master/dist/ReactChatApps-console.zip) (1.93MB)
+[ReactChat.AppMac.app.zip](https://github.com/ServiceStackApps/ReactChatApps/raw/master/dist/ReactChat.AppMac.app.zip) (4.51 MB)
+
+#### Console App (Windows/OSX/Linux):
+
+[ReactChat-console.exe](https://github.com/ServiceStackApps/ReactChatApps/raw/master/dist/ReactChat-console.exe) (5.33 MB) or [DefaultApp-console.zip](https://github.com/ServiceStackApps/ReactChatApps/raw/master/dist/ReactChatApps-console.zip) (1.93MB)
 
 ## Project Structure
 Just like other templates in ServiceStackVS, the **React Desktop Apps** template provides the same recommended structure as well as 3 additional other projects for producing the Console and WinForms applications.
