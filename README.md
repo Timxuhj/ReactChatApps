@@ -1,11 +1,17 @@
 # React Chat Apps
 
-A chat demo of building a React application to target multiple platforms using the 
-**[React Desktop Apps](https://github.com/ServiceStackApps/ReactDesktopApps)** 
-template from the ServiceStackVS extension. In this demo we've ported the 
-[Chat-React demo application](https://github.com/ServiceStackApps/Chat-React) to the React Desktop Apps 
-template to take advantage of [CefSharp](https://github.com/cefsharp/CefSharp) to help you get the benefits 
-of native applications whilst using great tools and frameworks from the web!
+A port of 
+[React Chat](https://github.com/ServiceStackApps/Chat-React) 
+built with the new 
+**[React Desktop Apps](https://github.com/ServiceStackApps/ReactDesktopApps)**
+VS.NET template which is used to package the ASP.NET React Chat Web App into a native 
+**Winforms App** on Windows, a **Cocoa App** on OSX and a cross-platform **Console App** runnable on Win/OSX/Linux.
+The primary ASP.NET Web App remains unaffected and includes build task for easy deployments 
+using MS Web Deploy which is used to deploy the [reactchatapps.servicestack.net](http://reactchatapps.servicestack.net/) Live Demo.
+
+The template takes advantage of [CefSharp](https://github.com/cefsharp/CefSharp) on Windows and 
+a Safari WebView on OSX to allow targeting of modern WebKit Browsers whilst integrating 
+within a native application to enable a rich Desktop App User Experience from a single portable .exe. 
 
 [![React Desktop Apps](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/gap/react-desktop-splash.png)](https://github.com/ServiceStackApps/ReactDesktopApps)
 
@@ -16,7 +22,9 @@ template is setup ready to deploy to multiple target platforms, just by running 
 - **Console** - Single portable, cross platform executable that utilises the user's default browser.
 - **Windows** - Native Windows application using an embedded browser.
 
-Additionally, an **OSX** project using Xamarin.Mac is generated preconfigured and ready to run! Web resources and services are shared between the Xamarin.Mac and Visual Studio solutions maximizing code reuse and having the ability to hook into native functionality in OSX using **Xamarin.Mac**.
+Additionally, an **OSX** project using Xamarin.Mac is generated preconfigured and ready to run! 
+Web resources and services are shared between the Xamarin.Mac and Visual Studio solutions 
+maximizing code reuse and having the ability to hook into native functionality in OSX using **Xamarin.Mac**.
 
 ![WinForms application with loading splash screen](https://github.com/ServiceStack/Assets/raw/master/img/livedemos/react-desktop-apps/redis-chat-app.gif)
 
