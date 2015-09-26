@@ -47,15 +47,15 @@ The `/windows.dance` chat message provides a nice demonstration of this in actio
 
 [ReactChat-winforms.exe](https://github.com/ServiceStackApps/ReactChatApps/raw/master/dist/ReactChat-winforms.exe) (23.6 MB)
 
-#### OSX Cocoa App: 
+#### OSX Cocoa App
 
 [ReactChat.AppMac.mono.app.zip](https://github.com/ServiceStackApps/ReactChatApps/raw/master/dist/ReactChat.AppMac.mono.app.zip) (16.9 MB) 
 
-Without Mono Embedded: 
+Without Mono Embedded (requires Mono): 
 
 [ReactChat.AppMac.app.zip](https://github.com/ServiceStackApps/ReactChatApps/raw/master/dist/ReactChat.AppMac.app.zip) (4.51 MB)
 
-#### Console App (Windows/OSX/Linux):
+#### Console App (Windows/OSX/Linux)
 
 [ReactChat-console.exe](https://github.com/ServiceStackApps/ReactChatApps/raw/master/dist/ReactChat-console.exe) (5.33 MB) or [DefaultApp-console.zip](https://github.com/ServiceStackApps/ReactChatApps/raw/master/dist/ReactChatApps-console.zip) (1.93MB)
 
