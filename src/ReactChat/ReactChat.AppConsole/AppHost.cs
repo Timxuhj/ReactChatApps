@@ -99,13 +99,6 @@ namespace ReactChat.AppConsole
         private void InitializeAppSettings()
         {
             var allKeys = AppSettings.GetAllKeys();
-            if (!allKeys.Contains("platformsClassName"))
-                AppSettings.Set("platformsClassName", "console");
-            if (!allKeys.Contains("PlatformCss"))
-                AppSettings.Set("PlatformCss", "console.css");
-            if (!allKeys.Contains("PlatformJs"))
-                AppSettings.Set("PlatformJs", "console.js");
-
             if (!allKeys.Contains("oauth.RedirectUrl"))
                 AppSettings.Set("oauth.RedirectUrl", Program.HostUrl);
             if (!allKeys.Contains("oauth.CallbackUrl"))
