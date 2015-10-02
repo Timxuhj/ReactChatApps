@@ -469,4 +469,32 @@ Then when the client app is packaged, all `.jsx` files are compiled and minified
 
 **For more info on working with React, see the [Chat-React project](https://github.com/ServiceStackApps/Chat-React#introducing-reactjs) documentation.** 
 
+# Example React Desktop Apps
+
+## [Redis React](https://github.com/ServiceStackApps/RedisReact)
+
+Redis React is a simple user-friendly UI for browsing data in Redis servers that leverages 
+the navigation and deep-linking benefits of a Web-based UI, the productivity and responsiveness of the 
+[React framework](http://facebook.github.io/react/) 
+and the deep Integration possible from a Native App.
+
+[![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/livedemos/redis-react/home.png)](http://redisreact.servicestack.net/#/)
+
+> Downloads for [Windows, OSX, Linux and Web](https://github.com/ServiceStackApps/RedisReact#download)
+
+## [React Chat Desktop](https://github.com/ServiceStackApps/ReactChatApps)
+
+A port of 
+[React Chat](https://github.com/ServiceStackApps/Chat-React)
+built with the new 
+[React Desktop Apps](https://github.com/ServiceStackApps/ReactDesktopApps)
+VS.NET template and packaged into a native Desktop App for Windows and OSX.
+It takes advantage of 
+[Server Events](https://github.com/ServiceStack/ServiceStack/wiki/Server-Events) to enable synchronized 
+real-time control of multiple Windows Apps:
+
+[![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/livedemos/react-desktop-apps/dancing-windows.png)](https://youtu.be/-9kVqdPbqOM)
+
+> Downloads for [Windows, OSX, Linux and Web](https://github.com/ServiceStackApps/ReactChatApps#downloads)
+
 
